@@ -1,0 +1,178 @@
+<div class="image-container set-full-height" style="background-image: url('assets/img/wizard-city.jpg')">
+  <!--   Creative Tim Branding   -->
+  <a href="http://google.com" target="_blank">
+       <div class="logo-container">
+          <div class="logo">
+              <img style="height:60px; width:60px;" src="assets/img/LogoQbic.jpg">
+          </div>
+          <div class="brand">
+              QBic
+          </div>
+      </div>
+  </a>
+
+  <!--   Big container   -->
+  <div class="container">
+      <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+
+          <!--      Wizard container        -->
+          <div class="wizard-container">
+              <div class="card wizard-card" data-color="green" id="wizard">
+              <form>
+              <!--        You can switch ' data-color="green" '  with one of the next bright colors: "blue", "green", "orange", "red"          -->
+
+                    <div class="wizard-header">
+                        <h3>
+                           <b>REGISTRE</b> SU PAQUETE<br>
+                           <small>Aplicacion administrativa para su empresa.</small>
+                        </h3>
+                    </div>
+          <div class="wizard-navigation">
+            <ul>
+                            <li><a href="#location" data-toggle="tab">CONTACTO</a></li>
+                            <li><a href="#type" data-toggle="tab">CONFIRMACION</a></li>
+                            <li><a href="#facilities" data-toggle="tab">PAQUETE</a></li>
+                            <li><a href="#description" data-toggle="tab">EMPRESA</a></li>
+                        </ul>
+          </div>
+
+                      <div class="tab-content">
+                          <div class="tab-pane" id="location">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                  <h4 class="info-text"> Comencemos con la informacion Basica</h4>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                      <label>Nombre: <small>(required)</small></label>
+                                      <input name="name" [(ngModel)]="currentCustomer.name" required type="text" class="form-control" placeholder="Capture su nombre completo">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                      <label>Telefono: <small>(required)</small></label>
+                                      <input name="phone" [(ngModel)]="currentCustomer.phone" required type="tel" class="form-control" placeholder="Capture su numero telefonico">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                      <label>Correo Electronico: <small>(required)</small></label>
+                                      <input name="email" [(ngModel)]="currentCustomer.email" type="email" class="form-control" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+
+                          </div>
+                          <div class="tab-pane" id="type">
+                            <h4 class="info-text">Corfirme su correo electronico</h4>
+                            <div class="row">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-group">
+                                      <label><small>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</small></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <div class="form-group">
+                                      <label>Codigo de Confirmacion <small>(required)</small></label>
+                                      <input name="confirmedCode" [(ngModel)]="confirmedCode" type="text" class="form-control" placeholder="Input received code.">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <div class="form-group">
+                                      <label><small>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</small></label>
+                                    </div>
+                                </div>
+                            </div>
+              
+                          </div>
+                          <div class="tab-pane" id="facilities">
+                              <h4 class="info-text">Seleccione el paquete mas acorde a su empresa. </h4>
+                              <div class="row">
+                                  <div class="col-sm-10 col-sm-offset-1">
+                                      <div class="col-sm-4" (click)="onPackageSelect(p)" *ngFor="let p of packages">
+                                          <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Select this option if you have want {{p.Titulo}}" >
+                                              <input type="radio" name="type" value="House">
+                                              <div class="icon">
+                                                  <span [ngClass]="{'text-warning': p.Id == currentPackage.Id}">
+                                                    <i [ngClass]="p.ClaseIcono"></i>
+                                                  </span>
+                                              </div>
+                                              <h6>{{p.Titulo}}</h6>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="tab-pane" id="description">
+                              <div class="row">
+                                <h4 class="info-text"> Proporcione los datos de su empresa. </h4>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                      <label>Nombre de la empresa <small>(required)</small></label>
+                                      <input required name="companyName" [(ngModel)]="currentCustomer.companyName" type="text" class="form-control" placeholder="Nombre de la empresa o razon social">
+                                    </div>
+                                </div>
+                              </div>
+              
+              <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label>Nombre Corto <small>(required)</small></label>
+                                      <input required name="shortName" [(ngModel)]="currentCustomer.shortName" type="text" class="form-control" placeholder="Nombre corto de la empresa">
+                                    </div>
+                </div>
+                <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label>RFC <small>(required)</small></label>
+                                      <input name="rfc" [(ngModel)]="currentCustomer.rfc" required type="text" class="form-control" placeholder="">
+                                    </div>
+                                </div>
+              
+              </div>
+
+
+                              <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                      <label>Domicilio Fiscal <small>(required)</small></label>
+                                      <input required name="currentCustomer.address" type="text" class="form-control" placeholder="">
+                                    </div>
+                                </div>
+                              </div>
+
+                          </div>
+                      </div>
+                      <div class="wizard-footer">
+                            <div class="pull-right">
+                                  <input type='button' class='btn btn-next btn-fill btn-success btn-wd btn-sm' (click)="nextStep()" name='next' value='Next' />
+                                  <input type='button' class='btn btn-finish btn-fill btn-success btn-wd btn-sm' (click)="register()" [disabled]="isRegistered" name='finish' value='Finish' />
+
+                              </div>
+                              <div class="pull-left">
+                                  <input type='button' class='btn btn-previous btn-fill btn-default btn-wd btn-sm' name='previous' value='Previous' />
+                              </div>
+                              <div class="clearfix"></div>
+                      </div>
+
+                  </form>
+              </div>
+          </div> <!-- wizard container -->
+      </div>
+      </div> <!-- row -->
+  </div> <!--  big container -->
+
+  <div class="footer">
+      <div class="container">
+           @2020 Qbic
+      </div>
+  </div>
+</div>
