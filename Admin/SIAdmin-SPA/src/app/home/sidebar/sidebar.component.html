@@ -1,0 +1,26 @@
+<div class="sidebar" data-color="white" data-active-color="danger">
+  <div class="logo">
+    <a [routerLink]="['/home']" class="simple-text logo-mini">
+      <div class="logo-image-small">
+        <img src="./assets/images/LogoQbic.jpg">
+      </div>
+      <!-- <p>CT</p> -->
+    </a>
+    <a [routerLink]="['/home']" class="simple-text logo-normal">
+      Qbic
+      <!-- <div class="logo-image-big">
+        <img src="../assets/img/logo-big.png">
+      </div> -->
+    </a>
+  </div>
+  <div class="sidebar-wrapper">
+    <ul class="nav">
+      <li routerLinkActive="active">
+        <a [routerLink]="['/configuracion']">
+          <i class="nc-icon nc-settings-gear-65"></i>
+          <p>Configuracion B.D.</p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

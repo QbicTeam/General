@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+.login-content {
+    opacity: .8;
+    margin: auto;
+    padding-top: 150px;
+    padding-bottom: 100px;
+  }
+
+  .modal-catalog {
+      width: 80%;
+  }
+
+  body {
+      background-color: #f4f3ef;
+  }
+html, body { height: 100%; }
+body { margin: 0; }
