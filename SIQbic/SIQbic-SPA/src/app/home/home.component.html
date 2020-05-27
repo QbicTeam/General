@@ -1,1 +1,3 @@
-<app-maindashboard></app-maindashboard>
+<!-- <app-maindashboard></app-maindashboard> -->
+<app-login *ngIf="currentAction === 'login'" (actionChange)="setAction($event)"></app-login>
+<app-register *ngIf="currentAction === 'register'" (actionChange)="setAction($event)"></app-register>

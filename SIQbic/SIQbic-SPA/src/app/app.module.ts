@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -8,8 +8,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
 import { MaindashboardComponent } from './maindashboard/maindashboard.component';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { SecuritasModule } from './securitas/securitas.module';
+import { AlertifyService } from './_services/alertify.service';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 @NgModule({
    declarations: [
@@ -18,15 +19,19 @@ import { RegisterComponent } from './register/register.component';
       SidebarComponent,
       FooterComponent,
       MaindashboardComponent,
-      HomeComponent,
-      LoginComponent,
-      RegisterComponent
+      HomeComponent
    ],
    imports: [
       BrowserModule,
-      AppRoutingModule
+      AppRoutingModule,
+      FormsModule,
+      ReactiveFormsModule,
+      SecuritasModule
    ],
-   providers: [],
+   providers: [
+      ErrorInterceptorProvider,
+      AlertifyService
+   ],
    bootstrap: [
       AppComponent
    ]

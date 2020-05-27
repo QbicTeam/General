@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  currentAction = "login";
+  loggedIn = false;
+
   constructor() { }
 
   ngOnInit() {
   }
+
+  setAction(action) {
+    this.currentAction = action;
+  }
+
 
 }

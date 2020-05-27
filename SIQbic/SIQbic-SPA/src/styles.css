@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @charset "UTF-8";
+@import '../node_modules/alertifyjs/build/css/alertify.min.css';
+@import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
+
 /*!
 * Start Bootstrap - SB Admin v6.0.0 (https://startbootstrap.com/templates/sb-admin)
 * Copyright 2013-2020 Start Bootstrap
@@ -47,6 +50,19 @@
 *::after {
   box-sizing: border-box;
 }
+
+/* LOGIN */
+.login-content {
+  opacity: .8;
+  margin: auto;
+  padding-top: 150px;
+  padding-bottom: 100px;
+}
+
+.modal-catalog {
+    width: 80%;
+}
+/* END LOGIN */
 
 html {
   font-family: sans-serif;
