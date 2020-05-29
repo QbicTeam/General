@@ -40,6 +40,11 @@ export class AuthService {
       );
   }
 
+  getDecodedToken() {
+    const token = localStorage.getItem("token");
+    return this.jwtHelper.decodeToken(token);
+  }
+
   loggedIn() {
     const token = localStorage.getItem("token");
     return !!token;

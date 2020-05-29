@@ -1,0 +1,11 @@
+<h1 class="mt-4">{{formData.formName}}</h1>
+<ol class="breadcrumb mb-4">
+  <li *ngFor="let p of formData.path" class="breadcrumb-item">{{p}}</li>
+</ol>
+<div class="card mb-4">
+  <div class="card-body" [ngClass]="formData.notesType">
+    <div [ngClass]="formData.notesType">
+        {{formData.notes}}
+    </div>
+  </div>
+</div>

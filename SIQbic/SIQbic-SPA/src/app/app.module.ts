@@ -11,6 +11,10 @@ import { HomeComponent } from './home/home.component';
 import { SecuritasModule } from './securitas/securitas.module';
 import { AlertifyService } from './_services/alertify.service';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { UsersAdminComponent } from './Forms/Security/usersAdmin/usersAdmin.component';
+import { HeaderFormComponent } from './Forms/headerForm/headerForm.component';
+import { ContainerFormComponent } from './Forms/containerForm/containerForm.component';
+import { AuthGuard } from './_guards/auth.guard';
 
 @NgModule({
    declarations: [
@@ -19,7 +23,10 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
       SidebarComponent,
       FooterComponent,
       MaindashboardComponent,
-      HomeComponent
+      HomeComponent,
+      UsersAdminComponent,
+      HeaderFormComponent,
+      ContainerFormComponent
    ],
    imports: [
       BrowserModule,
@@ -30,7 +37,8 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
    ],
    providers: [
       ErrorInterceptorProvider,
-      AlertifyService
+      AlertifyService,
+      AuthGuard
    ],
    bootstrap: [
       AppComponent
