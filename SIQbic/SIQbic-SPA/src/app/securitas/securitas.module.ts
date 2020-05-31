@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { RegisterComponent } from './register/register.component';
 import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent, PhotoEditorComponent],
@@ -16,7 +17,8 @@ import { PhotoEditorComponent } from './photo-editor/photo-editor.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FileUploadModule
   ], 
   exports: [
     LoginComponent,

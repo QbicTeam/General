@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SIQbic.API.Dtos
@@ -13,5 +14,29 @@ namespace SIQbic.API.Dtos
         
         public string DisplayName { get; set; }        
         
+        [Required]
+        public string Phone { get; set; }
+
+        [Required]
+        public string Question1 { get; set; }
+
+        [Required]
+        public string Question2 { get; set; }
+
+        [Required]
+        public string Question3 { get; set; }
+
+        [Required]
+        public string Response1 { get; set; }
+
+        [Required]
+        public string Response2 { get; set; }
+
+        [Required]
+        public string Response3 { get; set; }
+
+        [Required]
+        public string RegistrationCode { get; set; }
+
     }
 }

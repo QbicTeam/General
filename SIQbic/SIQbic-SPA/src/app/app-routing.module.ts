@@ -9,8 +9,9 @@ const routes: Routes = [
   {
       path: '',
       children: [
-          { path: 'home', component: HomeComponent },
-          { path: 'form/users', component: ContainerFormComponent, canActivate: [AuthGuard] }
+        { path: 'home/:rcode', component: HomeComponent },
+        { path: 'home', component: HomeComponent },
+        { path: 'form/users', component: ContainerFormComponent, canActivate: [AuthGuard] }
       ]
   },
   { path: '**', redirectTo: '', pathMatch: 'full'}];

@@ -20,28 +20,18 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this._authService.decodedToken);
+    this.loadMenu();
 
     this._authService.currentAction.subscribe(action => {
       this.loggedIn = this._authService.loggedIn();
     });
 
-    this._shareDataService.companyDataSource.subscribe(action => {
-
-      if (!action)
-        return;
-        
-      if (action.action == ActionType.Selected) {
-        this.loadMenuByCompanyId(action.id);
-      }
-    });  
   }
 
-  loadMenuByCompanyId(id: number) {
+  loadMenu() {
     
-    this.menu = this._coreService.getMenuByCompany(id);
-    console.log("Loaded menu for company:  " + id, this.menu);
-
+    this.menu = this._coreService.getMenuByCompany();
+ 
   }
 
 

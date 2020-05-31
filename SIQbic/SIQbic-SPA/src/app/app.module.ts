@@ -15,6 +15,7 @@ import { UsersAdminComponent } from './Forms/Security/usersAdmin/usersAdmin.comp
 import { HeaderFormComponent } from './Forms/headerForm/headerForm.component';
 import { ContainerFormComponent } from './Forms/containerForm/containerForm.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
    declarations: [
@@ -26,14 +27,15 @@ import { AuthGuard } from './_guards/auth.guard';
       HomeComponent,
       UsersAdminComponent,
       HeaderFormComponent,
-      ContainerFormComponent
+      ContainerFormComponent,
    ],
    imports: [
       BrowserModule,
       AppRoutingModule,
       FormsModule,
       ReactiveFormsModule,
-      SecuritasModule
+      SecuritasModule,
+      FileUploadModule
    ],
    providers: [
       ErrorInterceptorProvider,

@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/SIQbic.API/bin/Debug/netcoreapp3.0/SIQbic.API.dll",
+            "program": "${workspaceFolder}/SIQbic.API/bin/Debug/netcoreapp3.1/SIQbic.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/SIQbic.API",
             "stopAtEntry": false,

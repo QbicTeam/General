@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SIQbic.API.Model
 {
@@ -16,8 +17,18 @@ namespace SIQbic.API.Model
 
         public bool IsActive { get; set; }
 
+        public string PhoneNumber { get; set; }
+
+        public string PhotoSourceCode { get; set; }
+
+        public string PhotoUrl { get; set; }
+
         public DateTime CreationDate { get; set; }
         
-        public DateTime? LastModificationDate { get; set; }            
+        public DateTime? LastModificationDate { get; set; }  
+
+        public List<RegistrationCode> RegistrationCodes { get; set; }          
+
+        public List<QuestionResponse> QuestionResponses { get; set; }
     }
 }

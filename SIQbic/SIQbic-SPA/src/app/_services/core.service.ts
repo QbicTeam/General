@@ -15,7 +15,7 @@ constructor() { }
     ]
   }
 
-  getMenuByCompany(companyId: number) {
+  getMenuByCompany() {
 
     return [
       { "id": 1, "displayName": "CORE", "displayIcon": "", "url":"", "childs":[
@@ -56,7 +56,8 @@ constructor() { }
       "notesType": "alert-info",
       "formTitle": "Invitacion de nuevos usuarios",
       "formIcon": "fa fa-user-plus",
-      "footerNotes": "La tasa de usuarios usuarios que responden a la ivitacion por correo es del 80%"
+      "footerNotes": "La tasa de usuarios usuarios que responden a la ivitacion por correo es del 80%",
+      "componente":""
     }
   }
 

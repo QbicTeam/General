@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SIQbic.API.Model;
@@ -14,5 +15,14 @@ namespace SIQbic.API.Data
 
         Task<bool> ChangePassword(string username, string password, string newPassword);        
 
+        Task<List<Question>> GetQuestions();
+
+        Task<User> GetUserById(int userId);
+
+        void RequestInvitation(string sponsorEmail);
+
+        Task<List<RegistrationCode>> GetInvitations();
+
+        Task<bool> UpdateRegisterCodeRecord(string regCode, string status, int userId);
     }
 }

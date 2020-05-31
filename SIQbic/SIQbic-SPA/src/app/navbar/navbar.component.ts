@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ShareDataService } from '../_services/ShareData.service';
 import { DataSource } from '../_model/DataSource';
 import { ActionType } from '../_model/ActionType.enum';
+import { QuickAction } from '../_model/QuickAction';
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +18,7 @@ export class NavbarComponent implements OnInit {
   loggedIn = false;
   companies: any;
   companySelected: any;
+  sidebarVisible = true;
 
   constructor(public _authService: AuthService, private _coreService: CoreService, private _alertify: AlertifyService, 
     private _router: Router, private _shareData: ShareDataService) { }
@@ -36,7 +38,7 @@ export class NavbarComponent implements OnInit {
     this._authService.logout();
     this._alertify.message("Logged out");    
     this._router.navigate(['/home']);
-    
+    this._shareData.notifyActionSource(new QuickAction("sidebarToogle", { value: false}));
   }
 
   onCompanyChange() {
@@ -54,7 +56,12 @@ export class NavbarComponent implements OnInit {
   }
 
   onSidebarToggle() {
-    this._shareData.notifyActionSource("sidebarToogle");
+    
+    this.sidebarVisible = !this.sidebarVisible;
+
+    console.log(new QuickAction("sidebarToogle", { value: this.sidebarVisible}));
+
+    this._shareData.notifyActionSource(new QuickAction("sidebarToogle", { value: this.sidebarVisible}));
   }
 
 }

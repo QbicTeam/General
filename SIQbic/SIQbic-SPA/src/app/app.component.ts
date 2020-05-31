@@ -9,7 +9,6 @@ import { DOCUMENT } from '@angular/common';
 })
 export class AppComponent implements OnInit {
   title = 'SIQbic-SPA';
-  sidebarVissible = true;
 
   constructor(private _shareData: ShareDataService, @Inject(DOCUMENT) private document: Document) {
 
@@ -17,12 +16,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
+    let sidebarVisible = false;
+
     this._shareData.currentActionSource.subscribe(action => {
-      if (action == "sidebarToogle")
-        this.sidebarVissible = !this.sidebarVissible;
 
+      if (action && action != null && action.key == "sidebarToogle")
+        sidebarVisible = action.value.value;
 
-      if (this.sidebarVissible) {
+      if (sidebarVisible) {
         this.document.body.classList.remove('sb-sidenav-toggled');
       } else {
         this.document.body.classList.add('sb-sidenav-toggled');

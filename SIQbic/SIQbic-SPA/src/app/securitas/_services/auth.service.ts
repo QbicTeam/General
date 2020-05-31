@@ -40,6 +40,10 @@ export class AuthService {
       );
   }
 
+  getQuestions() {
+    return this._http.get(this.baseUrl + "questions");
+  }
+
   getDecodedToken() {
     const token = localStorage.getItem("token");
     return this.jwtHelper.decodeToken(token);
@@ -53,6 +57,14 @@ export class AuthService {
   logout() {
      localStorage.removeItem("token");
      this.notifyAction("loggedOut");
+  }
+
+  startOnBoardProcess(regCode: string) {
+    return this._http.get(this.baseUrl + "onboard/" + regCode); 
+  }
+
+  requestInvitation(regCode: string) {
+    return this._http.post(this.baseUrl + "invite/" + regCode, null); 
   }
 
   private notifyAction(action: string) {
