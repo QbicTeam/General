@@ -9,6 +9,8 @@ namespace SIQbic.API.Data
 {
     public class AuthRepository: IAuthRepository
     {
+        int EXPIRATION_DATE_VIGENCY = 5;
+
         private readonly DataContext _context;
 
         public AuthRepository(DataContext context)
@@ -76,15 +78,14 @@ namespace SIQbic.API.Data
             return user;
         }
 
-        public async void RequestInvitation(string sponsorEmail) 
+        public async void RequestInvitation(string sponsorEmail, int roleId) 
         {
-            int EXPIRATION_DATE_VIGENCY = 5;
-
             string rcode = GenerateInvitationCode();
 
             this._context.Invitations.Add(new RegistrationCode{
                 Code = rcode,
                 DateCreated = DateTime.Now,
+                RoleId = roleId,
                 DueDate = DateTime.Now.AddDays(EXPIRATION_DATE_VIGENCY),
                 SponsorEmail = sponsorEmail,
                 Status = RegistrationCodeStatusType.Requested.ToString()
@@ -118,6 +119,18 @@ namespace SIQbic.API.Data
                 return false;
             }
 
+        }
+
+        public async Task<bool> CreateInvitation(RegistrationCode regCode)
+        {
+            string code = GenerateInvitationCode();
+            regCode.Code = code;
+            regCode.DueDate = regCode.DateCreated.AddDays(EXPIRATION_DATE_VIGENCY);
+
+            this._context.Invitations.Add(regCode);
+            await this._context.SaveChangesAsync();
+
+            return true;
         }
 
         private string GenerateInvitationCode() 

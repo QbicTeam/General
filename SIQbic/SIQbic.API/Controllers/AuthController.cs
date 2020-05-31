@@ -176,7 +176,7 @@ namespace SIQbic.API.Controllers
 
         }
 
-        [HttpPost("invite/{rcode}")]
+        [HttpPost("invites/{rcode}")]
         public async Task<ActionResult> RequestInvite(string rcode)
         {
             string CODE_NOT_VALID_MESSAGE = "502 - Codigo de registro no valido.";
@@ -195,11 +195,30 @@ namespace SIQbic.API.Controllers
                
                 RegistrationCodeStatusType userRegCodeStatus = (RegistrationCodeStatusType) Enum.Parse(typeof(RegistrationCodeStatusType), regCode.Status);
 
-                this._repo.RequestInvitation(regCode.SponsorEmail);
+                this._repo.RequestInvitation(regCode.SponsorEmail, regCode.RoleId);
                 return Ok();
             }
 
         }
+
+        [HttpPost("invites")]
+        public async Task<ActionResult> CreateInvite(InviteForCreationDTO inviteForCreation)
+        {
+
+            RegistrationCode regCode = new RegistrationCode {
+                DateCreated = DateTime.Now,
+                InvitedEmail = inviteForCreation.InvitedEmail,
+                SponsorEmail = inviteForCreation.SponsorEmail,
+                RoleId = inviteForCreation.RoleId,
+                Status = RegistrationCodeStatusType.Created.ToString()
+            };
+
+            await this._repo.CreateInvitation(regCode);
+
+            return Ok();
+
+        }
+
 
     }
 }

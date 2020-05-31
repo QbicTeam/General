@@ -17,5 +17,7 @@ namespace SIQbic.API.Model
         public string InvitedEmail { get; set; }
 
         public string SponsorEmail { get; set; }
+
+        public int RoleId { get; set; }
     }
 }
