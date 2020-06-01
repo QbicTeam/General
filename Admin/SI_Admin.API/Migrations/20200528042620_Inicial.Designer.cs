@@ -9,7 +9,7 @@ using SI_Admin.API.Data;
 namespace SI_Admin.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200526011044_Inicial")]
+    [Migration("20200528042620_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,9 @@ namespace SI_Admin.API.Migrations
                     b.Property<string>("DataBase")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDBControl")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("NegocioID")
                         .HasColumnType("INTEGER");
 
@@ -96,28 +99,13 @@ namespace SI_Admin.API.Migrations
                     b.Property<string>("Abr")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ClienteActualizacionId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Descripcion")
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("LicenciaId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Nombre")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PaqueteId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ClienteActualizacionId");
-
-                    b.HasIndex("LicenciaId");
-
-                    b.HasIndex("PaqueteId");
 
                     b.ToTable("Aplicaciones");
                 });
@@ -177,6 +165,27 @@ namespace SI_Admin.API.Migrations
                     b.ToTable("ClienteActualizaciones");
                 });
 
+            modelBuilder.Entity("Framework.DataTypes.Model.Licenciamiento.ClienteActualizacionApp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AppId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ClienteActualizacionId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppId");
+
+                    b.HasIndex("ClienteActualizacionId");
+
+                    b.ToTable("ClienteActualizacionApps");
+                });
+
             modelBuilder.Entity("Framework.DataTypes.Model.Licenciamiento.ClienteActualizacionNegocio", b =>
                 {
                     b.Property<int>("Id")
@@ -208,7 +217,7 @@ namespace SI_Admin.API.Migrations
                     b.Property<int>("ClienteId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("CostoIncial")
+                    b.Property<decimal>("CostoInicial")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("CostoTotalActual")
@@ -239,16 +248,43 @@ namespace SI_Admin.API.Migrations
                     b.ToTable("Licencias");
                 });
 
+            modelBuilder.Entity("Framework.DataTypes.Model.Licenciamiento.LicenciaApp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AppId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("LicenciaId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppId");
+
+                    b.HasIndex("LicenciaId");
+
+                    b.ToTable("LicenciaApps");
+                });
+
             modelBuilder.Entity("Framework.DataTypes.Model.Licenciamiento.Paquete", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ClaseIcono")
+                        .HasColumnType("TEXT");
+
                     b.Property<decimal>("Costo")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Descripcion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nombre")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("NumNegocios")
@@ -262,26 +298,32 @@ namespace SI_Admin.API.Migrations
                     b.ToTable("Paquetes");
                 });
 
+            modelBuilder.Entity("Framework.DataTypes.Model.Licenciamiento.PaqueteApp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AppId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("PaqueteId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppId");
+
+                    b.HasIndex("PaqueteId");
+
+                    b.ToTable("PaqueteApps");
+                });
+
             modelBuilder.Entity("Framework.DataTypes.Model.Base.ClienteNegocio", b =>
                 {
                     b.HasOne("Framework.DataTypes.Model.Base.Cliente", null)
                         .WithMany("Negocios")
                         .HasForeignKey("ClienteId");
-                });
-
-            modelBuilder.Entity("Framework.DataTypes.Model.Infraestructura.Aplicacion", b =>
-                {
-                    b.HasOne("Framework.DataTypes.Model.Licenciamiento.ClienteActualizacion", null)
-                        .WithMany("Apps")
-                        .HasForeignKey("ClienteActualizacionId");
-
-                    b.HasOne("Framework.DataTypes.Model.Licenciamiento.Licencia", null)
-                        .WithMany("Aplicaciones")
-                        .HasForeignKey("LicenciaId");
-
-                    b.HasOne("Framework.DataTypes.Model.Licenciamiento.Paquete", null)
-                        .WithMany("Apps")
-                        .HasForeignKey("PaqueteId");
                 });
 
             modelBuilder.Entity("Framework.DataTypes.Model.Infraestructura.AppMenu", b =>
@@ -308,6 +350,19 @@ namespace SI_Admin.API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Framework.DataTypes.Model.Licenciamiento.ClienteActualizacionApp", b =>
+                {
+                    b.HasOne("Framework.DataTypes.Model.Infraestructura.Aplicacion", "App")
+                        .WithMany()
+                        .HasForeignKey("AppId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Framework.DataTypes.Model.Licenciamiento.ClienteActualizacion", null)
+                        .WithMany("Apps")
+                        .HasForeignKey("ClienteActualizacionId");
+                });
+
             modelBuilder.Entity("Framework.DataTypes.Model.Licenciamiento.ClienteActualizacionNegocio", b =>
                 {
                     b.HasOne("Framework.DataTypes.Model.Licenciamiento.ClienteActualizacion", null)
@@ -326,6 +381,32 @@ namespace SI_Admin.API.Migrations
                     b.HasOne("Framework.DataTypes.Model.Licenciamiento.Paquete", "PaqueteInicial")
                         .WithMany()
                         .HasForeignKey("PaqueteInicialId");
+                });
+
+            modelBuilder.Entity("Framework.DataTypes.Model.Licenciamiento.LicenciaApp", b =>
+                {
+                    b.HasOne("Framework.DataTypes.Model.Infraestructura.Aplicacion", "App")
+                        .WithMany()
+                        .HasForeignKey("AppId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Framework.DataTypes.Model.Licenciamiento.Licencia", null)
+                        .WithMany("Apps")
+                        .HasForeignKey("LicenciaId");
+                });
+
+            modelBuilder.Entity("Framework.DataTypes.Model.Licenciamiento.PaqueteApp", b =>
+                {
+                    b.HasOne("Framework.DataTypes.Model.Infraestructura.Aplicacion", "App")
+                        .WithMany()
+                        .HasForeignKey("AppId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Framework.DataTypes.Model.Licenciamiento.Paquete", null)
+                        .WithMany("Apps")
+                        .HasForeignKey("PaqueteId");
                 });
 #pragma warning restore 612, 618
         }

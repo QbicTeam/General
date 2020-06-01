@@ -1,0 +1,20 @@
+<div class="card card-user">
+  <div class="card-header">
+    <h4 class="card-title">Solicitudes</h4>
+  </div>
+  <div class="card-body">
+    <form #projectForm="ngForm">
+      <div class="row">
+        <div class="update ml-auto mr-auto">
+          <div>
+            <label class="lead">Nuevo Cliente</label>
+          </div>
+          <button type="submit" (click)="onNuevoCliente()" class="btn btn-primary btn-round" [disabled]="isRequested">
+            <span *ngIf="isSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span> Iniciar Proceso</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

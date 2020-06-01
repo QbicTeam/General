@@ -12,6 +12,8 @@ import { SidebarComponent } from './home/sidebar/sidebar.component';
 import { NavbarComponent } from './home/navbar/navbar.component';
 import { FooterComponent } from './home/footer/footer.component';
 import { BusinessComponent } from './configuracionbd/business/business.component';
+import { RequestComponent } from './configuracionbd/request/request.component';
+
 
 @NgModule({
    declarations: [
@@ -22,7 +24,8 @@ import { BusinessComponent } from './configuracionbd/business/business.component
       FooterComponent,
       MaindashboardComponent,
       ConfiguracionbdComponent,
-      BusinessComponent
+      BusinessComponent,
+      RequestComponent
    ],
    imports: [
       BrowserModule,

@@ -35,7 +35,7 @@ namespace SI_Admin.API.Data
         {
            var cliente = await _context.Clientes
             .Include(n => n.Negocios)
-            .Where(c => c.Id == id)
+            //.Where(c => c.Id == id)
             .FirstOrDefaultAsync(c => c.Id == id);
 
             return cliente;
@@ -67,13 +67,33 @@ namespace SI_Admin.API.Data
         {
             var actualizacion = await _context.ClienteActualizaciones
             .Include(c => c.Cliente)
-            .Include(a => a.Apps)
+            .Include(ca => ca.Apps).ThenInclude(a => a.App)
             .Include(n => n.Negocios)
             //.Where(ca => ca.Id == id)
             .OrderBy(ca => ca.Cliente.NomCorto)
             .FirstOrDefaultAsync(ca => ca.Id == id);
 
             return actualizacion;
+        }
+
+        public async Task<Paquete> GetPaquete(int id)
+        {
+           var paquete = await _context.Paquetes
+            .Include(p => p.Apps)
+            //.Where(p => p.Id == id)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+            return paquete;
+        }
+
+        public async Task<IEnumerable<Paquete>> GetPaquetes()
+        {
+            var paquetes = await _context.Paquetes
+            //.Include(n => n.Negocios)
+            //.OrderBy(p => p.Nombre)
+            .ToListAsync();
+
+            return paquetes;
         }
     }
 }

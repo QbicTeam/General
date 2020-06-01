@@ -38,6 +38,7 @@ namespace SI_Admin.API
            services.AddAutoMapper();
            
            services.AddControllers();
+           services.AddScoped<IQAdminRepository, QAdminRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,12 +50,12 @@ namespace SI_Admin.API
             }
 
             // app.UseHttpsRedirection();
-
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseRouting();
 
             // app.UseAuthorization();
 
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            
             app.UseDefaultFiles();
             app.UseStaticFiles();
 

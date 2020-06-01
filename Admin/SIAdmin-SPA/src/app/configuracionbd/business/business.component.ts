@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AdminService } from 'src/app/_services/admin.service';
+import { Business } from 'src/app/_model/business';
 
 @Component({
   selector: 'app-business',
@@ -8,7 +9,11 @@ import { AdminService } from 'src/app/_services/admin.service';
 })
 export class BusinessComponent implements OnInit {
 
+  @Input() currentBusinnes: Business;
+  @Output() executedChange = new EventEmitter();
+
   isSaving = false;
+  isExecuted = false;
 
   constructor(private _adminService: AdminService) { }
 
@@ -16,9 +21,18 @@ export class BusinessComponent implements OnInit {
   }
   
   onSave() {
-    
-    this._adminService.sendEmailInvitationForRegister().subscribe(() => {
-      console.log('saved... and invitation sent...');
+    this.isSaving = true;
+    console.log('currentBusiness: ', this.currentBusinnes);
+
+    this._adminService.saveBusiness(this.currentBusinnes).subscribe(() => {
+      this.isSaving = false;
+      console.log('Saved');
+      this.isExecuted = true;
+      this.executedChange.emit(this.currentBusinnes);
+
+
     });
+    
+    
   }
 }

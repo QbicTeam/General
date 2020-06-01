@@ -10,10 +10,10 @@ namespace Framework.DataTypes.Model.Licenciamiento
         public int Id { get; set; }
         public int ClienteId { get; set; }
         public Paquete PaqueteInicial { get; set; }
-        public decimal CostoIncial { get; set; }
+        public decimal CostoInicial { get; set; }
         public int NumUsuariosTotal { get; set; }
         public int NumNegociosTotal { get; set; }
-        public ICollection<Aplicacion> Aplicaciones { get; set; }
+        public ICollection<LicenciaApp> Apps { get; set; }
         public decimal CostoTotalActual { get; set; }
         public DateTime FechaAlta { get; set; }
         public DateTime UltActualizacion { get; set; }

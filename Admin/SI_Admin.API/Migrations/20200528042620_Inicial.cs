@@ -8,6 +8,21 @@ namespace SI_Admin.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Aplicaciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nombre = table.Column<string>(nullable: true),
+                    Abr = table.Column<string>(nullable: true),
+                    Descripcion = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Aplicaciones", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Clientes",
                 columns: table => new
                 {
@@ -32,14 +47,45 @@ namespace SI_Admin.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Nombre = table.Column<string>(nullable: true),
                     Descripcion = table.Column<string>(nullable: true),
                     NumUsuarios = table.Column<int>(nullable: false),
                     NumNegocios = table.Column<int>(nullable: false),
-                    Costo = table.Column<decimal>(nullable: false)
+                    Costo = table.Column<decimal>(nullable: false),
+                    ClaseIcono = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Paquetes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Menus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AplicacionId = table.Column<int>(nullable: false),
+                    Nombre = table.Column<string>(nullable: true),
+                    Descripcion = table.Column<string>(nullable: true),
+                    URL = table.Column<string>(nullable: true),
+                    PadreId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Menus", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Menus_Aplicaciones_AplicacionId",
+                        column: x => x.AplicacionId,
+                        principalTable: "Aplicaciones",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Menus_Menus_PadreId",
+                        column: x => x.PadreId,
+                        principalTable: "Menus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,6 +123,7 @@ namespace SI_Admin.API.Migrations
                     Puerto = table.Column<string>(nullable: true),
                     NombreNegocio = table.Column<string>(nullable: true),
                     NegocioID = table.Column<int>(nullable: false),
+                    IsDBControl = table.Column<bool>(nullable: false),
                     ClienteId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -98,7 +145,7 @@ namespace SI_Admin.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ClienteId = table.Column<int>(nullable: false),
                     PaqueteInicialId = table.Column<int>(nullable: true),
-                    CostoIncial = table.Column<decimal>(nullable: false),
+                    CostoInicial = table.Column<decimal>(nullable: false),
                     NumUsuariosTotal = table.Column<int>(nullable: false),
                     NumNegociosTotal = table.Column<int>(nullable: false),
                     CostoTotalActual = table.Column<decimal>(nullable: false),
@@ -118,6 +165,58 @@ namespace SI_Admin.API.Migrations
                         name: "FK_Licencias_Paquetes_PaqueteInicialId",
                         column: x => x.PaqueteInicialId,
                         principalTable: "Paquetes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaqueteApps",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AppId = table.Column<int>(nullable: false),
+                    PaqueteId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaqueteApps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PaqueteApps_Aplicaciones_AppId",
+                        column: x => x.AppId,
+                        principalTable: "Aplicaciones",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PaqueteApps_Paquetes_PaqueteId",
+                        column: x => x.PaqueteId,
+                        principalTable: "Paquetes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClienteActualizacionApps",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AppId = table.Column<int>(nullable: false),
+                    ClienteActualizacionId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClienteActualizacionApps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClienteActualizacionApps_Aplicaciones_AppId",
+                        column: x => x.AppId,
+                        principalTable: "Aplicaciones",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClienteActualizacionApps_ClienteActualizaciones_ClienteActualizacionId",
+                        column: x => x.ClienteActualizacionId,
+                        principalTable: "ClienteActualizaciones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -144,84 +243,40 @@ namespace SI_Admin.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Aplicaciones",
+                name: "LicenciaApps",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(nullable: true),
-                    Abr = table.Column<string>(nullable: true),
-                    Descripcion = table.Column<string>(nullable: true),
-                    ClienteActualizacionId = table.Column<int>(nullable: true),
-                    LicenciaId = table.Column<int>(nullable: true),
-                    PaqueteId = table.Column<int>(nullable: true)
+                    AppId = table.Column<int>(nullable: false),
+                    LicenciaId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Aplicaciones", x => x.Id);
+                    table.PrimaryKey("PK_LicenciaApps", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Aplicaciones_ClienteActualizaciones_ClienteActualizacionId",
-                        column: x => x.ClienteActualizacionId,
-                        principalTable: "ClienteActualizaciones",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Aplicaciones_Licencias_LicenciaId",
-                        column: x => x.LicenciaId,
-                        principalTable: "Licencias",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Aplicaciones_Paquetes_PaqueteId",
-                        column: x => x.PaqueteId,
-                        principalTable: "Paquetes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Menus",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    AplicacionId = table.Column<int>(nullable: false),
-                    Nombre = table.Column<string>(nullable: true),
-                    Descripcion = table.Column<string>(nullable: true),
-                    URL = table.Column<string>(nullable: true),
-                    PadreId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Menus", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Menus_Aplicaciones_AplicacionId",
-                        column: x => x.AplicacionId,
+                        name: "FK_LicenciaApps_Aplicaciones_AppId",
+                        column: x => x.AppId,
                         principalTable: "Aplicaciones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Menus_Menus_PadreId",
-                        column: x => x.PadreId,
-                        principalTable: "Menus",
+                        name: "FK_LicenciaApps_Licencias_LicenciaId",
+                        column: x => x.LicenciaId,
+                        principalTable: "Licencias",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Aplicaciones_ClienteActualizacionId",
-                table: "Aplicaciones",
+                name: "IX_ClienteActualizacionApps_AppId",
+                table: "ClienteActualizacionApps",
+                column: "AppId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClienteActualizacionApps_ClienteActualizacionId",
+                table: "ClienteActualizacionApps",
                 column: "ClienteActualizacionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Aplicaciones_LicenciaId",
-                table: "Aplicaciones",
-                column: "LicenciaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Aplicaciones_PaqueteId",
-                table: "Aplicaciones",
-                column: "PaqueteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClienteActualizaciones_ClienteId",
@@ -237,6 +292,16 @@ namespace SI_Admin.API.Migrations
                 name: "IX_ClienteNegocios_ClienteId",
                 table: "ClienteNegocios",
                 column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LicenciaApps_AppId",
+                table: "LicenciaApps",
+                column: "AppId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LicenciaApps_LicenciaId",
+                table: "LicenciaApps",
+                column: "LicenciaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Licencias_ClienteId",
@@ -258,10 +323,23 @@ namespace SI_Admin.API.Migrations
                 name: "IX_Menus_PadreId",
                 table: "Menus",
                 column: "PadreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaqueteApps_AppId",
+                table: "PaqueteApps",
+                column: "AppId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaqueteApps_PaqueteId",
+                table: "PaqueteApps",
+                column: "PaqueteId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ClienteActualizacionApps");
+
             migrationBuilder.DropTable(
                 name: "ClienteActualizacionNegocios");
 
@@ -269,16 +347,22 @@ namespace SI_Admin.API.Migrations
                 name: "ClienteNegocios");
 
             migrationBuilder.DropTable(
+                name: "LicenciaApps");
+
+            migrationBuilder.DropTable(
                 name: "Menus");
 
             migrationBuilder.DropTable(
-                name: "Aplicaciones");
+                name: "PaqueteApps");
 
             migrationBuilder.DropTable(
                 name: "ClienteActualizaciones");
 
             migrationBuilder.DropTable(
                 name: "Licencias");
+
+            migrationBuilder.DropTable(
+                name: "Aplicaciones");
 
             migrationBuilder.DropTable(
                 name: "Clientes");

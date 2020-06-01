@@ -1,30 +1,79 @@
 <div class="row">
-  <div class="col-10">
+  <div class="col-12">
     <h3 class="description mb-0">
       Configuration de Negocios
     </h3>
-    <div>
-      <small>
-        <span>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate ipsa iusto, voluptate dolores totam neque ex eos, doloribus, facilis dolore eveniet veritatis assumenda quasi iure quia tenetur saepe obcaecati reiciendis culpa magnam alias aliquam? Velit tempore quod laudantium incidunt magni consequatur iusto? Deserunt recusandae hic in aliquid magnam illum qui distinctio doloremque reprehenderit iure. Est, neque voluptas necessitatibus adipisci magnam praesentium, ex natus facilis iusto dicta ducimus quaerat! Pariatur ullam ducimus, tenetur, odio reiciendis, id molestiae labore molestias ipsa similique perspiciatis animi. Eveniet et nostrum enim ut, repudiandae consectetur ad neque dolores sapiente quasi nisi rem autem velit ullam repellat.
-        </span>
-      </small>
+  </div>
+  <div class="col-12">
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+          <select class="form-control" [(ngModel)]="customerSelected"  name="customerSelected" (change)="onCustomerChange()" >
+            <option value=""></option>
+            <option *ngFor="let c of customers" [ngValue]="c">{{c.nombreCliente}}</option>
+          </select> 
+
+        </div>
+      </div>
+    </div>  
+  </div>
+
+  <div class="col-12">
+    <div class="row">
+      <div class="col-6">
+
+
+        <div class="alert alert-info alert-with-icon alert-dismissible fade show" data-notify="container">
+          <div data-notify="message">
+            <div class="row">
+              <div class="col-12">
+                <strong>Empresa</strong>
+              </div>
+              <div class="col-12">{{customerSelectedDetail?.cliente.nomEmpresa}}</div>
+              <div class="col-12"><strong>Contacto</strong></div>
+              <div class="col-12">{{customerSelectedDetail?.cliente.contacto}} </div>
+              <div class="col-6"><strong>Correo</strong></div>
+              <div class="col-6"><strong>Telefono</strong></div>
+              <div class="col-6">{{customerSelectedDetail?.cliente.email}}</div>
+              <div class="col-6">{{customerSelectedDetail?.cliente.telefono}}</div>          
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <h4 class="mb-0">Aplicaciones Contratadas</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <tr><th>
+                ...
+              </th>
+              <th>
+                Aplicacion
+              </th>
+            </tr></thead>
+            <tbody>
+              <tr *ngFor="let app of customerSelectedDetail?.apps">
+                <td>
+                  <input type="checkbox" name="" class="form-control">
+                </td>
+                <td>
+                  {{app.app.nombre}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <div class="alert alert-warning alert-with-icon alert-dismissible fade show" data-notify="container">
-      <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-        <i class="nc-icon nc-simple-remove"></i>
-      </button>
-      <span data-notify="icon" class="nc-icon nc-alert-circle-i"></span>
-      <span data-notify="message">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Et repellendus cum perferendis deleniti hic minus, dolorem iure soluta ratione deserunt.
-      </span>
-    </div>
-  </div>
-  <div class="col-2 text-right">
-    <button class="btn btn-sm btn-outline-info btn-round btn-icon"><i class="nc-icon nc-simple-add"></i></button>
   </div>
 </div>
+
+<app-request (nuevoClienteChange)="startProcess($event)"></app-request>
+
 <hr/>
 
-<app-business></app-business>
+<app-business *ngFor="let b of business" [currentBusinnes]="b" (executedChange)="onBusinessChange($event)">
+
+</app-business>

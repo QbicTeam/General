@@ -17,8 +17,11 @@ namespace SI_Admin.API.Data
         
         public DbSet<ClienteActualizacion> ClienteActualizaciones { get; set; }
         public DbSet<ClienteActualizacionNegocio> ClienteActualizacionNegocios { get; set; }
+        public DbSet<ClienteActualizacionApp> ClienteActualizacionApps { get; set; }
         public DbSet<Licencia> Licencias { get; set; }
+        public DbSet<LicenciaApp> LicenciaApps { get; set; }
         public DbSet<Paquete> Paquetes { get; set; }
+        public DbSet<PaqueteApp> PaqueteApps { get; set; }
        
     }
 }
