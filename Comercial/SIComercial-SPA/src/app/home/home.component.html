@@ -99,14 +99,14 @@
                               <div class="row">
                                   <div class="col-sm-10 col-sm-offset-1">
                                       <div class="col-sm-4" (click)="onPackageSelect(p)" *ngFor="let p of packages">
-                                          <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Select this option if you have want {{p.Titulo}}" >
+                                          <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Select this option if you have want {{p?.nombre}}" >
                                               <input type="radio" name="type" value="House">
                                               <div class="icon">
-                                                  <span [ngClass]="{'text-warning': p.Id == currentPackage.Id}">
-                                                    <i [ngClass]="p.ClaseIcono"></i>
+                                                  <span [ngClass]="{'text-warning': p?.id == currentPackage?.id}">
+                                                    <i [ngClass]="p?.claseIcono"></i>
                                                   </span>
                                               </div>
-                                              <h6>{{p.Titulo}}</h6>
+                                              <h6>{{p?.nombre}}</h6>
                                           </div>
                                       </div>
                                   </div>
@@ -144,7 +144,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                       <label>Domicilio Fiscal <small>(required)</small></label>
-                                      <input required name="currentCustomer.address" type="text" class="form-control" placeholder="">
+                                      <input required name="address" [(ngModel)]="currentCustomer.address" type="text" class="form-control" placeholder="">
                                     </div>
                                 </div>
                               </div>

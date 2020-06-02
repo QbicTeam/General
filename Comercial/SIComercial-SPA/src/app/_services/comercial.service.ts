@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,30 +9,12 @@ export class ComercialService {
 
 constructor(private _http: HttpClient) { }
 
+baseURL = environment.apiURL;
+
+
+
   getPaquetes() {
-
-    var result = new Array();
-
-    result.push({
-      Id: 1,
-      ClaseIcono: "fa fa-map",
-      Titulo: "Terrenos"
-    });
-
-    result.push({
-      Id: 2,
-      ClaseIcono: "fa fa-home",
-      Titulo: "Vivienda"
-    });
-
-    result.push({
-      Id: 3,
-      ClaseIcono: "fa fa-money",
-      Titulo: "Rentas"
-    });
-
-    return result;
-
+    return this._http.get(this.baseURL + 'paquetes');
   }
 
   requestConfirmationCode(name: string, email: string) {
@@ -89,6 +71,22 @@ constructor(private _http: HttpClient) { }
     return true;
   }
 
+  saveCustomer(customer) {
+
+    let cliente = {
+      "Contacto": customer.name,
+      "Telefono": customer.phone,
+      "email": customer.email, 
+      "NomEmpresa": customer.companyName, 
+      "NomCorto": customer.shortName, 
+      "RFC": customer.rfc, 
+      "Domicilio": customer.address, 
+      "PaqueteId": customer.package.id
+      };
+
+
+    return this._http.post(this.baseURL + 'clientes', cliente);
+  }
 
 
   private getHeader() {

@@ -31,9 +31,13 @@ export class HomeComponent implements OnInit {
   }
 
   loadPackages() {
-    this.packages = this._comercialService.getPaquetes();
-    //TODO: This is fake:
-    this.selectPackage();
+    
+  this._comercialService.getPaquetes().subscribe(data => {
+      this.packages = data;
+      console.log('Paquetes', this.packages);
+      this.selectPackage();
+    });
+    
   }
 
   selectPackage() {
@@ -42,17 +46,25 @@ export class HomeComponent implements OnInit {
   }
 
   register() {
+    
     this.currentCustomer.package = this.currentPackage;
     console.log('Register customer...', this.currentCustomer);
     this.isRegistered = true;
 
-    this._comercialService.sendWelcomeEmail(this.currentCustomer.name, this.currentCustomer.email).subscribe(() =>{
-      console.log('Welcome Email sent...');
+    console.log('Customer', this.currentCustomer);
+
+    this._comercialService.saveCustomer(this.currentCustomer).subscribe(() => {
+      console.log('Customer Saved');
+      this._comercialService.sendWelcomeEmail(this.currentCustomer.name, this.currentCustomer.email).subscribe(() =>{
+        console.log('Welcome Email sent...');
+      });
+  
+      this._comercialService.sendSupportOrder(this.currentCustomer.name).subscribe(() => {
+        console.log('Work Order sent...');
+      });
     });
 
-    this._comercialService.sendSupportOrder(this.currentCustomer.name).subscribe(() => {
-      console.log('Work Order sent...');
-    });
+
   }
   
   onPackageSelect(pkg) {
