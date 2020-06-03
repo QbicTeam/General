@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ComercialService } from '../_services/comercial.service';
 
+
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-newCustomer',
+  templateUrl: './newCustomer.component.html',
+  styleUrls: ['./newCustomer.component.css']
 })
-export class HomeComponent implements OnInit {
+export class NewCustomerComponent implements OnInit {
+
 
   currentStep = 1;
   isRegistered = false;
@@ -14,7 +16,7 @@ export class HomeComponent implements OnInit {
   confirmedCode: string;
   packages;
   currentCustomer = {
-    "name": "",
+    'name': '',
     'phone': '',
     'email': '',
     'package': this.currentPackage,
@@ -53,19 +55,6 @@ export class HomeComponent implements OnInit {
 
     console.log('Customer', this.currentCustomer);
 
-    // let customer = this.currentCustomer;
-    // let cliente = {
-    //   "Contacto": customer.name, //"El Contacto del Segundo Cliente",
-    //   "Telefono": customer.phone, //"664 765 4321",
-    //   "email": customer.email, //"CarlosSotoOcio@gmail.com",
-    //   "NomEmpresa": customer.companyName, //"Desarrollos Ecologicos SA de CV",
-    //   "NomCorto": customer.shortName, //"ECO",
-    //   "RFC": customer.rfc, //"ECO200530TR2",
-    //   "Domicilio": customer.address, //"Calle Agregricultura #102, Frac. Siempre Verde",
-    //   "PaqueteId": customer.package.id //2
-    //   };
-
-    //   console.log('Cliente',cliente)
     this._comercialService.saveCustomer(this.currentCustomer).subscribe(() => {
       console.log('Customer Saved');
       this._comercialService.sendWelcomeEmail(this.currentCustomer.name, this.currentCustomer.email).subscribe(() =>{
@@ -100,5 +89,5 @@ export class HomeComponent implements OnInit {
       this._comercialService.validateConfirmationCode(this.currentCustomer.email, this.confirmedCode);
     }
   }
-
 }
+

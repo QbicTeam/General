@@ -6,15 +6,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NewCustomerComponent } from './newCustomer/newCustomer.component';
 
 @NgModule({
    declarations: [
       AppComponent,
-      HomeComponent
+      HomeComponent,
+      NewCustomerComponent
    ],
    imports: [
       BrowserModule,
-      AppRoutingModule, 
+      AppRoutingModule,
       FormsModule,
       HttpClientModule
    ],
