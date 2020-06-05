@@ -11,6 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using SI_Admin.API.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using AutoMapper;
+
 namespace SI_Admin.API
 {
     public class Startup
@@ -25,7 +30,15 @@ namespace SI_Admin.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
+               .ConfigureWarnings(w => w.Ignore(CoreEventId.IncludeIgnoredWarning)));
+
+           services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+           services.AddCors();
+           services.AddAutoMapper();
+           
+           services.AddControllers();
+           services.AddScoped<IQAdminRepository, QAdminRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,11 +49,15 @@ namespace SI_Admin.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
+            // app.UseHttpsRedirection();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseRouting();
 
-            app.UseAuthorization();
+            // app.UseAuthorization();
+
+            
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

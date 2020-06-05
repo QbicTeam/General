@@ -1,0 +1,42 @@
+<div class="login-content col-md-5">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Login</h5>
+      </div>
+      <div class="card-body">
+        <form #loginForm="ngForm">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Username: </label>
+                <input type="email" required name="userName" [(ngModel)]="user.UserName" class="form-control" placeholder="Input your email">
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Password:</label>
+                <input type="password" required name="password" [(ngModel)]="user.Password" class="form-control" placeholder="Password">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="update ml-auto mr-auto">
+              <button [disabled]="!loginForm.valid" type="submit" (click)="login()" class="btn btn-primary btn-round">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span> Login</span>
+              </button>
+            </div>
+          </div>
+          <div class="row d-none">
+            <div class="update ml-auto mr-auto">
+              <span>Not a member?</span><a class="ml-1" [routerLink]="" (click)="actionChanged()">Sign Up</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>  
+  

@@ -1,0 +1,198 @@
+<div class="login-content col-md-9 pt-0">
+  <div class="card card-user">
+    <div class="card-header">
+      <h5 class="card-title">Register</h5>
+    </div>
+    <div class="card-body">
+      <div *ngIf="!isCodeValid" class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+
+      <div *ngIf="errorMsg" >
+        <div class="alert alert-danger alert-dismissible fade show">
+          <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+            <i class="nc-icon nc-simple-remove"></i>
+          </button>
+          <span>{{errorMsg}}</span>
+        </div>
+
+        <div class="border border-info">
+          <div *ngIf="errorCode == '503' || errorCode == '504'">
+            <div class="text-center p-3">
+              Desea solicitar nuevamente una invitacion?
+            </div>
+            <div class="text-center p-3">
+              <button class="btn btn-success mr-3" (click)="requestInvitation()">Si, Solicitar Invitacion</button>
+              <button class="btn btn-danger" (click)="cancelInvitation()">No</button>
+            </div>
+          </div>
+          <div class="text-center p-3" *ngIf="errorCode != '503' && errorCode != '504'">
+              <button class="btn btn-primary" (click)="cancelInvitation()">Ok</button>
+          </div>
+        </div>
+
+      </div>
+
+      <form [formGroup]="registerForm" *ngIf="isCodeValid && !errorMsg" (ngSubmit)="register()">
+
+        <div class="row">
+          <div class="col-5">
+            <!--[FOTO]-->
+            <app-photo-editor></app-photo-editor>
+            <!--[END PHOTO]-->
+          </div>
+          <div class="col-7">
+            <!--[DATOS BASICOS]-->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Username: </label>
+                  <input type="email" disabled [ngClass]="{'is-invalid': registerForm.get('username').errors
+                    && registerForm.get('username').touched}" 
+                    class="form-control" formControlName="username" placeholder="Input your email"/>
+                  <div class="invalid-feedback text-danger mt-1"><small>Please choose a valid username</small></div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Full Name: </label>
+                  <input type="text" [ngClass]="{'is-invalid': registerForm.get('displayname').errors
+                    && registerForm.get('displayname').touched}"
+                    class="form-control" formControlName="displayname" placeholder="Input your full name">
+                    <div class="invalid-feedback text-danger mt-1"><small>Display Name is required</small></div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label>Telefono: </label>
+                  <input type="text" [ngClass]="{'is-invalid': registerForm.get('phone').errors
+                    && registerForm.get('phone').touched}"
+                    class="form-control" formControlName="phone" placeholder="Input your phone number">
+                    <div class="invalid-feedback text-danger mt-1"><small>Phone Number is required</small></div>
+                </div>
+              </div>
+    
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Password:</label>
+                  <input type="password" [ngClass]="{'is-invalid': registerForm.get('password').errors
+                    && registerForm.get('password').touched}" 
+                    class="form-control"  formControlName="password" placeholder="Password">
+                  <div class="invalid-feedback text-danger mt-1" *ngIf="registerForm.get('password').hasError('required')
+                    && registerForm.get('password').touched"><small>Password is required</small></div>
+                  <div class="invalid-feedback text-danger mt-1" *ngIf="registerForm.get('password').hasError('minlength')
+                    && registerForm.get('password').touched"><small>Password must be at least 4 characters</small></div>
+                  <div class="invalid-feedback text-danger mt-1" *ngIf="registerForm.get('password').hasError('maxlength')
+                    && registerForm.get('password').touched"><small>Password cannot exceed 8 characters</small></div>
+    
+                </div>
+              </div>
+  
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label>Confirm:</label>
+                  <input type="password" [ngClass]="{'is-invalid': registerForm.get('confirmpassword').errors
+                    && registerForm.get('confirmpassword').touched
+                    || registerForm.get('confirmpassword').touched
+                    && registerForm.hasError('mismatch')}"
+                   class="form-control" formControlName="confirmpassword" placeholder="Password">
+                   <div class="invalid-feedback text-danger mt-1" *ngIf="registerForm.get('confirmpassword').hasError('required')
+                    && registerForm.get('confirmpassword').touched"><small>Password is required</small></div>
+                    <div class="invalid-feedback text-danger mt-1" *ngIf="registerForm.hasError('mismatch')
+                    && registerForm.get('confirmpassword').touched"><small>Password must match</small></div>                
+                </div>
+              </div>
+  
+          </div>
+
+            <!--[END DATOS BASICOS]-->
+          </div>
+        </div>
+
+        <hr/>
+        <div class="row">
+          <div class="col-12">
+            <h1 class="lead">Preguntas para recuperar su contrasena</h1>
+          </div>
+          <div class="col-12">
+            <!--[PREGUNTAS]-->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <select class="form-control" formControlName="question1" (change)="onChangeQuestion1($event)" 
+                    [ngClass]="{'is-invalid': registerForm.get('question1').errors
+                    && registerForm.get('question1').touched}" >
+                    <option value=""></option>
+                    <option *ngFor="let q1 of questions1" [ngValue]="q1.id">{{q1.displayValue}}</option>
+                  </select>
+                  <div class="text-danger mt-1" *ngIf="question1.errors?.required && registerForm.get('question1').touched"><small>* Please select a question</small></div>
+                  <input type="text" [ngClass]="{'is-invalid': registerForm.get('response1').errors
+                    && registerForm.get('response1').touched}" 
+                    class="form-control mt-1" formControlName="response1" placeholder="Input your respose for selected question"/>
+                  <div class="invalid-feedback text-danger mt-1"><small>Please enter a reponse for the selected question</small></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <select class="form-control" formControlName="question2" (change)="onChangeQuestion2($event)" 
+                    [ngClass]="{'is-invalid': registerForm.get('question2').errors
+                      && registerForm.get('question2').touched}">
+                      <option value=""></option>
+                      <option *ngFor="let q2 of questions2" [ngValue]="q2.id">{{q2.displayValue}}</option>  
+                  </select>
+                  <div class="text-danger mt-1" *ngIf="question2.errors?.required && registerForm.get('question2').touched"><small>* Please select a question</small></div>
+                  <input type="text" [ngClass]="{'is-invalid': registerForm.get('response2').errors
+                    && registerForm.get('response2').touched}" 
+                    class="form-control mt-1" formControlName="response2" placeholder="Input your respose for selected question"/>
+                  <div class="invalid-feedback text-danger mt-1"><small>Input your respose for selected question</small></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <select class="form-control" formControlName="question3" (change)="onChangeQuestion3($event)" 
+                    [ngClass]="{'is-invalid': registerForm.get('question3').errors
+                      && registerForm.get('question3').touched}">
+                      <option value=""></option>
+                      <option *ngFor="let q3 of questions3" [ngValue]="q3.id">{{q3.displayValue}}</option>  
+                  </select>
+                  <input type="text" [ngClass]="{'is-invalid': registerForm.get('response3').errors
+                    && registerForm.get('response3').touched}" 
+                    class="form-control mt-1" formControlName="response3" placeholder="Input your respose for selected question"/>
+                  <div class="invalid-feedback text-danger mt-1"><small>Input your respose for selected question</small></div>
+                </div>
+              </div>
+            </div>
+
+            <!--[END PREGUNTAS]-->
+          </div>
+        </div>
+        <div class="row">
+          <div class="update ml-auto mr-auto">
+            <button type="submit" [disabled]="!registerForm.valid && !isLoading" class="btn btn-primary btn-round">
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              <span> Register</span></button>
+          </div>
+        </div>
+        <div class="row d-none">
+          <div class="update ml-auto mr-auto">
+            <span>Already a member?</span><a class="ml-1" [routerLink]="" (click)="actionChanged()">Log In</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>  
+
+
+
+

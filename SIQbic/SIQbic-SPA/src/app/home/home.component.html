@@ -1,0 +1,10 @@
+<div *ngIf="!loggedIn">
+    <app-login *ngIf="currentAction === 'login'" (actionChange)="setAction($event)"></app-login>
+    <app-register *ngIf="currentAction === 'register'" (actionChange)="setAction($event)"></app-register>
+</div>
+
+<div *ngIf="loggedIn">
+    <app-maindashboard></app-maindashboard>
+</div>
+
+
