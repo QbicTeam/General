@@ -78,7 +78,7 @@ namespace SIQbic.API.Data
             return user;
         }
 
-        public async void RequestInvitation(string sponsorEmail, int roleId) 
+        public async Task<string> RequestInvitation(string invitedEmail, string sponsorEmail, int roleId) 
         {
             string rcode = GenerateInvitationCode();
 
@@ -87,16 +87,26 @@ namespace SIQbic.API.Data
                 DateCreated = DateTime.Now,
                 RoleId = roleId,
                 DueDate = DateTime.Now.AddDays(EXPIRATION_DATE_VIGENCY),
+                InvitedEmail = invitedEmail,
                 SponsorEmail = sponsorEmail,
                 Status = RegistrationCodeStatusType.Requested.ToString()
             });
 
             await this._context.SaveChangesAsync();
+
+            return rcode;
         }
 
         public async Task<List<RegistrationCode>> GetInvitations()
         {
             return await this._context.Invitations.ToListAsync();
+        }
+
+        public async Task<RegistrationCode> GetInvitationById(int id)
+        {
+            var reg = await this._context.Invitations.FirstOrDefaultAsync(r => r.Id == id);
+
+            return reg;
         }
 
         public async Task<bool> UpdateRegisterCodeRecord(string regCode, string status, int userId) 
@@ -121,7 +131,7 @@ namespace SIQbic.API.Data
 
         }
 
-        public async Task<bool> CreateInvitation(RegistrationCode regCode)
+        public async Task<string> CreateInvitation(RegistrationCode regCode)
         {
             string code = GenerateInvitationCode();
             regCode.Code = code;
@@ -130,7 +140,7 @@ namespace SIQbic.API.Data
             this._context.Invitations.Add(regCode);
             await this._context.SaveChangesAsync();
 
-            return true;
+            return code;
         }
 
         private string GenerateInvitationCode() 
@@ -182,6 +192,11 @@ namespace SIQbic.API.Data
             } 
 
             return true;      
+        }
+
+        public async Task<bool> SaveAll() 
+        {
+            return await this._context.SaveChangesAsync() > 0;
         }
 
         

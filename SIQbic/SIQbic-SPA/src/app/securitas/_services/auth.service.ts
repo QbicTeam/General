@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs';
@@ -13,6 +13,8 @@ import { UserForLogin } from '../Dtos/UserForLogin';
 export class AuthService {
 
   baseUrl = environment.securitasApiUrl;
+  baseEmailsUrl = environment.emailsApiUrl;
+
   jwtHelper = new JwtHelperService();
   decodedToken: any;
 
@@ -23,6 +25,10 @@ export class AuthService {
 
   register(user:UserForRegister) {
     return this._http.post(this.baseUrl + "register", user);
+  }
+
+  updateUser(id: any, userForUpdate: any) {
+    return this._http.put(this.baseUrl + "users/" + id, userForUpdate);
   }
 
   login(user: UserForLogin) {
@@ -64,11 +70,46 @@ export class AuthService {
   }
 
   requestInvitation(regCode: string) {
-    return this._http.post(this.baseUrl + "invite/" + regCode, null); 
+    return this._http.post(this.baseUrl + "invites/" + regCode, null); 
+  }
+
+  getInvitations() {
+    return this._http.get(this.baseUrl + "invites");
+  }
+
+  updateInvitation(id: any, roleId: any) {
+    return this._http.put(this.baseUrl + "invites/" + id, {roleId: roleId});
+  }
+
+  cancellInvitation(id: any) {
+    return this._http.delete(this.baseUrl + "invites/" + id);
+  }
+
+  approveInvitation(id: any) {
+    return this._http.put(this.baseUrl + "invites/" + id + "/approve", null);
+  }
+
+  createInvitation(invitation: any) {
+    return this._http.post(this.baseUrl + "invites", invitation);
+  }
+
+  sendInvitationEmail(email: any) {
+    return this._http.post(this.baseEmailsUrl + "emails", email, this.getHeader());
   }
 
   private notifyAction(action: string) {
     this.actionSource.next(action);
+  }
+
+  private getHeader() {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "x-api-key": environment.emailSupportApiKey
+      })
+    };
+
+    return httpOptions;
   }
 
 }

@@ -19,12 +19,16 @@ namespace SIQbic.API.Data
 
         Task<User> GetUserById(int userId);
 
-        void RequestInvitation(string sponsorEmail, int roleId);
+        Task<string> RequestInvitation(string invetedEmail, string sponsorEmail, int roleId);
 
-        Task<bool> CreateInvitation(RegistrationCode code);
+        Task<string> CreateInvitation(RegistrationCode code);
 
         Task<List<RegistrationCode>> GetInvitations();
 
+        Task<RegistrationCode> GetInvitationById(int id);
+
         Task<bool> UpdateRegisterCodeRecord(string regCode, string status, int userId);
+
+        Task<bool> SaveAll();
     }
 }

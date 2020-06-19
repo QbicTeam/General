@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CoreService } from '../_services/core.service';
 import { AuthService } from '../securitas/_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
@@ -15,10 +15,13 @@ import { QuickAction } from '../_model/QuickAction';
 })
 export class NavbarComponent implements OnInit {
 
+  @ViewChild('cmdCloseUpdateUser') closeBtnApprove: ElementRef;
   loggedIn = false;
   companies: any;
   companySelected: any;
   sidebarVisible = true;
+  notifications: any[];
+  currentUser: any;
 
   constructor(public _authService: AuthService, private _coreService: CoreService, private _alertify: AlertifyService, 
     private _router: Router, private _shareData: ShareDataService) { }
@@ -29,9 +32,35 @@ export class NavbarComponent implements OnInit {
     this._authService.currentAction.subscribe(action => {
       this.loggedIn = this._authService.loggedIn();
       if (this.loggedIn)
+      {
+
         this.loadCompanies();
+
+        this.currentUser = this._authService.getDecodedToken();
+        console.log(this.currentUser, this.currentUser.uri);
+      }
+    
     });
-  
+
+
+    this._shareData.liveNotificationChange.subscribe(msg => {
+      if (msg)
+      {
+        if (!this.notifications) this.notifications = new Array();
+        
+        this.notifications.push(msg);
+      }
+    });
+
+  }
+
+  onUpdateUser() {
+    this._authService.updateUser(this.currentUser.nameid, {"displayName": this.currentUser.given_name}).subscribe(() => {
+      this._alertify.success("Usuario Actualizado");
+      this.closeBtnApprove.nativeElement.click();
+    }, err => {
+      this._alertify.error(err);
+    });
   }
 
   logout() {
@@ -42,7 +71,6 @@ export class NavbarComponent implements OnInit {
   }
 
   onCompanyChange() {
-    console.log("Company Selected: ", this.companySelected);
     this._shareData.notifyCompanyDataSource(new DataSource(this.companySelected.id, ActionType.Selected, "", this.companySelected));
   }
 
@@ -50,7 +78,6 @@ export class NavbarComponent implements OnInit {
 
     this.companies = this._coreService.getCompanyList();
     this.companySelected = this.companies[0];
-    console.log('Loading companies...', this.companies);
     this._shareData.notifyCompanyDataSource(new DataSource(this.companies[0].id, ActionType.Selected, "", this.companies[0]));
 
   }

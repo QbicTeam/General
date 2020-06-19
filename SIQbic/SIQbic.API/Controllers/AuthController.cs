@@ -87,7 +87,8 @@ namespace SIQbic.API.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
                 new Claim(ClaimTypes.Name, userFromRepo.UserName),
-                new Claim(ClaimTypes.GivenName, userFromRepo.DisplayName)
+                new Claim(ClaimTypes.GivenName, userFromRepo.DisplayName),
+                new Claim(ClaimTypes.Webpage, userFromRepo.PhotoUrl)
             };
 
 
@@ -126,6 +127,18 @@ namespace SIQbic.API.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpPut("users/{id}")]
+        public async Task<ActionResult> UpdateUser(int id, UserForUpdateDTO userForUpdate)
+        {
+            var user = await this._repo.GetUserById(id);
+
+            user.DisplayName = userForUpdate.DisplayName;
+
+            await this._repo.SaveAll();
+
+            return Ok();
         }
 
         [HttpGet("onboard/{rcode}")]
@@ -195,10 +208,46 @@ namespace SIQbic.API.Controllers
                
                 RegistrationCodeStatusType userRegCodeStatus = (RegistrationCodeStatusType) Enum.Parse(typeof(RegistrationCodeStatusType), regCode.Status);
 
-                this._repo.RequestInvitation(regCode.SponsorEmail, regCode.RoleId);
+                await this._repo.RequestInvitation(regCode.InvitedEmail, regCode.SponsorEmail, regCode.RoleId);
+
                 return Ok();
             }
 
+        }
+
+        [HttpPut("invites/{id}")]
+        public async Task<ActionResult> UpdateInvite(int id, InviteForUpdateDTO inviteForUpdate)
+        {
+            var reg = await this._repo.GetInvitationById(id);
+
+            reg.RoleId = inviteForUpdate.RoleId;
+            await this._repo.SaveAll();
+
+            return Ok();
+        }
+
+        [HttpDelete("invites/{id}")]
+        public async Task<ActionResult> CancelInvite(int id)
+        {
+            var reg = await this._repo.GetInvitationById(id);
+
+            reg.Status = RegistrationCodeStatusType.Cancelled.ToString();
+
+            await this._repo.SaveAll();
+
+            return Ok();
+        }
+
+        [HttpPut("invites/{id}/approve")]
+        public async Task<ActionResult> ApproveInvite(int id)
+        {
+            var reg = await this._repo.GetInvitationById(id);
+
+            reg.Status = RegistrationCodeStatusType.Accepted.ToString();
+
+            await this._repo.SaveAll();
+
+            return Ok();
         }
 
         [HttpPost("invites")]
@@ -215,8 +264,49 @@ namespace SIQbic.API.Controllers
 
             await this._repo.CreateInvitation(regCode);
 
-            return Ok();
+            var result = new RegistrationCodeForReport{
+                    Id = regCode.Id,
+                    DateCreated = regCode.DateCreated,
+                    DueDate = regCode.DueDate,
+                    InvitedEmail = regCode.InvitedEmail,
+                    SponsorEmail = regCode.SponsorEmail,
+                    Status = regCode.Status,
+                    Code = regCode.Code
+                };
 
+            if (inviteForCreation.RoleId == 0) result.Role = new Role { Id = inviteForCreation.RoleId, DisplayName="Usuario" };
+            if (inviteForCreation.RoleId == 1) result.Role = new Role { Id = inviteForCreation.RoleId, DisplayName="Operador" };
+            if (inviteForCreation.RoleId == 2) result.Role = new Role { Id = inviteForCreation.RoleId, DisplayName="Administrador" };
+
+            return Ok(result);
+
+        }
+
+        [HttpGet("invites")]
+        public async Task<ActionResult> GetInvites() 
+        {
+            var invitations = await this._repo.GetInvitations();
+
+            var result = new List<RegistrationCodeForReport>();
+            foreach(var i in invitations)
+            {
+                result.Add(new RegistrationCodeForReport{
+                    Id = i.Id,
+                    DateCreated = i.DateCreated,
+                    DueDate = i.DueDate,
+                    InvitedEmail = i.InvitedEmail,
+                    SponsorEmail = i.SponsorEmail,
+                    Status = i.Status,
+                    Code = i.Code
+                });
+
+                if (i.RoleId == 0) result[result.Count-1].Role = new Role { Id = 0, DisplayName = "Usuario"};
+                if (i.RoleId == 1) result[result.Count-1].Role = new Role { Id = 1, DisplayName = "Operador"};
+                if (i.RoleId == 2) result[result.Count-1].Role = new Role { Id = 2, DisplayName = "Administrador"};
+
+            }
+
+            return Ok(result);
         }
 
 

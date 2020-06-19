@@ -52,9 +52,27 @@ constructor(private _http: HttpClient) { }
     let invite = {
       "RoleId":1,
       "InvitedEmail": emailUser,
-      "SponsorEmail":"support@qsg.mx"
+      "SponsorEmail":"majahide.payan@hotmail.com"
       };
     return this._http.post(this.apiSI_URL + 'invites', invite);
+  }
+
+  sendInvitationEmail(name: string, regCode: any) {
+    const url = "http://localhost:5001/emails/";
+
+    console.log(name, regCode);
+
+    var req = {	
+      "To": "majahide.payan@hotmail.com",
+      "Body": "",
+      "Subject": "Order request from " + name,
+      "IsHtml": true,
+      "TemplateId": 46, 
+      "Values": [{ "Variable":"nombre_cliente", "Value":name }, { "Variable":"regcode", "Value": regCode.regCode }]
+    };
+
+    return this._http.post(url, req,  this.getHeader());
+
   }
 
   private getHeader() {

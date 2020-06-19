@@ -162,7 +162,9 @@ export class RegisterComponent implements OnInit {
   }
 
   requestInvitation() {
+    
     this._authService.requestInvitation(this.currentRegCode).subscribe(() => {
+
       this._alertify.success("Invitacion Solicitada, Espere notificacion por correo.");
       this.router.navigate(['/home']);
     }, error => {

@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  securitasApiUrl: "http://localhost:5000/Auth/"
+  securitasApiUrl: "http://localhost:5000/Auth/",
+  photosAPIUrl: "http://majahide-001-site1.itempurl.com/releasecandidates/PhotosManagerAPI/", //"http://localhost:5100/"
+  emailsApiUrl: "http://localhost:5001/", //"http://majahide-001-site1.itempurl.com/releasecandidates/EmailsManagerAPI/"
+  emailSupportApiKey: "a0ba6866-4e22-47b5-8891-b13f9811c3c0"
 };
 
 /*

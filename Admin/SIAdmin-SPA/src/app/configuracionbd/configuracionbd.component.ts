@@ -65,8 +65,12 @@ export class ConfiguracionbdComponent implements OnInit {
 
     if (business.isDBControl) {
       // TODO Correo de Alta del Portal.
-      this._service.createInvitedUser(this.customerSelectedDetail.cliente.email).subscribe(() => {
-        console.log('Invitacion Created');
+      this._service.createInvitedUser(this.customerSelectedDetail.cliente.email).subscribe((code) => {
+        console.log('sending invittion...', code);
+        this._service.sendInvitationEmail("Gerardo Cabrera", code).subscribe(() => {
+          
+          console.log('Invitacion Created');
+        });
       });
 
     } else {

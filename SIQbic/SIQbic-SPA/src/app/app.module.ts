@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { DataTablesModule } from 'angular-datatables';
+
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -35,7 +37,8 @@ import { FileUploadModule } from 'ng2-file-upload';
       FormsModule,
       ReactiveFormsModule,
       SecuritasModule,
-      FileUploadModule
+      FileUploadModule,
+      DataTablesModule
    ],
    providers: [
       ErrorInterceptorProvider,

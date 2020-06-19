@@ -4,174 +4,56 @@
   </div>
   <div class="card-body">
     <!-- USERS REPORT -->
-    <div class="mb-2">
-      <span class="mr-3"><i class="fas fa-stopwatch text-secondary mr-1"></i>Invitacion Enviada</span>
-      <span class="mr-3"><i class="fas fa-stopwatch text-warning mr-1"></i>Invitacion Por Vencer</span>
-      <span class="mr-3"><i class="fas fa-stopwatch text-danger mr-1"></i>Invitacion Vencida</span>
-      <span class="mr-3"><i class="fas fa-stopwatch text-success mr-1"></i>Registro Exitoso</span>
-    </div>
-    <div class="table-responsive">
-      <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div>
-      <div class="col-sm-12 col-md-6">
-        <div id="dataTable_filter" class="dataTables_filter">
-          <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label>
-          <button data-toggle="modal" data-target="#mdlInviteUser" class="btn btn-outline-primary btn-sm ml-2 mr-1">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-          </button>
-        </div>
+    <div class="row mb-3">
+      <div class="col-10">
+        <span class="mr-3"><i class="fas fa-stopwatch text-primary mr-1"></i>Invitacion Enviada</span>
+        <span class="mr-3"><i class="fas fa-stopwatch text-warning mr-1"></i>Invitacion Por Vencer</span>
+        <span class="mr-3"><i class="fas fa-stopwatch text-danger mr-1"></i>Invitacion Vencida</span>
+        <span class="mr-3"><i class="fas fa-stopwatch text-secondary mr-1"></i>Invitacion Cancelada</span>
+        <span class="mr-3"><i class="fas fa-stopwatch text-info mr-1"></i>Invitacion Solicitada</span>
+        <span class="mr-3"><i class="fas fa-stopwatch text-success mr-1"></i>Registro Exitoso</span>
+      </div>
+      <div class="col-2 text-right">
+        <button data-toggle="modal" (click)="onNewInvite()" data-target="#mdlInviteUser" class="btn btn-outline-primary btn-sm ml-2 mr-1">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
-    <div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-          <thead>
-              <tr role="row">
-                <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 46px;">...</th>
-                <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 149px;">Usuario (Correo Electronico)</th>
-                <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 251px;">Rol / Perfil</th>
-                <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" style="width: 105px;">...</th>
-              </tr>
-          </thead>
-          <tfoot>
-              <tr>
-                <th rowspan="1" colspan="1">...</th>
-                <th rowspan="1" colspan="1">Usuario (Correo Electronico)</th>
-                <th rowspan="1" colspan="1">Rol / Perfil</th>
-                <th rowspan="1" colspan="1">...</th>
-              </tr>
-          </tfoot>
-          <tbody>
-          <tr role="row" class="odd">
-                  <td>
-                    <i class="fas fa-stopwatch text-secondary"></i>
-                  </td>
-                  <td class="sorting_1">Airi Satou</td>
-                  <td>Accountant</td>
-                  <td>
-                    <i class="fas fa-edit mr-2"></i>
-                    <i class="far fa-comment-dots mr-2"></i>
-                    <i class="fas fa-lock mr-2"></i>
-                    <i class="far fa-envelope mr-2"></i>
-                    <i class="fas fa-trash-alt mr-2 text-danger"></i>
-                  </td>
-              </tr><tr role="row" class="even">
-                <td>
-                  <i class="fas fa-stopwatch text-secondary"></i>
-                </td>
-                <td class="sorting_1">Angelica Ramos</td>
-                  <td>Chief Executive Officer (CEO)</td>
-                  <td>
-                    <i class="fas fa-edit mr-2"></i>
-                    <i class="far fa-comment-dots mr-2"></i>
-                    <i class="fas fa-lock mr-2"></i>
-                    <i class="far fa-envelope mr-2"></i>
-                    <i class="fas fa-trash-alt mr-2 text-danger"></i>
-                  </td>
-                </tr><tr role="row" class="odd">
-                <td>
-                  <i class="fas fa-stopwatch text-success"></i>
-                </td>
-                <td class="sorting_1">Ashton Cox</td>
-                  <td>Junior Technical Author</td>
-                  <td>
-                    <i class="fas fa-edit mr-2"></i>
-                    <i class="far fa-comment-dots mr-2"></i>
-                    <i class="fas fa-lock mr-2"></i>
-                    <i class="far fa-envelope mr-2"></i>
-                    <i class="fas fa-trash-alt mr-2 text-danger"></i>
-                  </td>
-              </tr><tr role="row" class="even">
-                <td>
-                  <i class="fas fa-stopwatch text-secondary"></i>
-                </td>
-                <td class="sorting_1">Bradley Greer</td>
-                  <td>Software Engineer</td>
-                  <td>
-                    <i class="fas fa-edit mr-2"></i>
-                    <i class="far fa-comment-dots mr-2"></i>
-                    <i class="fas fa-lock mr-2"></i>
-                    <i class="far fa-envelope mr-2"></i>
-                    <i class="fas fa-trash-alt mr-2 text-danger"></i>
-                  </td>
-              </tr><tr role="row" class="odd">
-                <td>
-                  <i class="fas fa-stopwatch text-warning"></i>
-                </td>
-                <td class="sorting_1">Brenden Wagner</td>
-                  <td>Software Engineer</td>
-                  <td>
-                    <i class="fas fa-edit mr-2"></i>
-                    <i class="far fa-comment-dots mr-2"></i>
-                    <i class="fas fa-lock mr-2"></i>
-                    <i class="far fa-envelope mr-2"></i>
-                    <i class="fas fa-trash-alt mr-2 text-danger"></i>
-                  </td>
-              </tr><tr role="row" class="even">
-                <td>
-                  <i class="fas fa-stopwatch text-secondary"></i>
-                </td>
-                <td class="sorting_1">Brielle Williamson</td>
-                  <td>Integration Specialist</td>
-                  <td>
-                    <i class="fas fa-edit mr-2"></i>
-                    <i class="far fa-comment-dots mr-2"></i>
-                    <i class="fas fa-lock mr-2"></i>
-                    <i class="far fa-envelope mr-2"></i>
-                    <i class="fas fa-trash-alt mr-2 text-danger"></i>
-                  </td>
-              </tr><tr role="row" class="odd">
-                <td>
-                  <i class="fas fa-stopwatch text-danger"></i>
-                </td>
-                <td class="sorting_1">Bruno Nash</td>
-                  <td>Software Engineer</td>
-                  <td>
-                    <i class="fas fa-edit mr-2"></i>
-                    <i class="far fa-comment-dots mr-2"></i>
-                    <i class="fas fa-lock mr-2"></i>
-                    <i class="far fa-envelope mr-2"></i>
-                    <i class="fas fa-trash-alt mr-2 text-danger"></i>
-                  </td>
-              </tr><tr role="row" class="even">
-                <td>
-                  <i class="fas fa-stopwatch text-danger"></i>
-                </td>
-                <td class="sorting_1">Caesar Vance</td>
-                  <td>Pre-Sales Support</td>
-                  <td>
-                    <i class="fas fa-edit mr-2"></i>
-                    <i class="far fa-comment-dots mr-2"></i>
-                    <i class="fas fa-lock mr-2"></i>
-                    <i class="far fa-envelope mr-2"></i>
-                    <i class="fas fa-trash-alt mr-2 text-danger"></i>
-                  </td>
-              </tr><tr role="row" class="odd">
-                <td>
-                  <i class="fas fa-stopwatch text-secondary"></i>
-                </td>
-                <td class="sorting_1">Cara Stevens</td>
-                  <td>Sales Assistant</td>
-                  <td>
-                    <i class="fas fa-edit mr-2"></i>
-                    <i class="far fa-comment-dots mr-2"></i>
-                    <i class="fas fa-lock mr-2"></i>
-                    <i class="far fa-envelope mr-2"></i>
-                    <i class="fas fa-trash-alt mr-2 text-danger"></i>
-                  </td>
-              </tr><tr role="row" class="even">
-                <td>
-                  <i class="fas fa-stopwatch text-success"></i>
-                </td>
-                <td class="sorting_1">Cedric Kelly</td>
-                  <td>Senior Javascript Developer</td>
-                  <td>
-                    <i class="fas fa-edit mr-2"></i>
-                    <i class="far fa-comment-dots mr-2"></i>
-                    <i class="fas fa-lock mr-2"></i>
-                    <i class="far fa-envelope mr-2"></i>
-                    <i class="fas fa-trash-alt mr-2 text-danger"></i>
-                  </td>
-              </tr></tbody>
-      </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-  </div>    
+    <hr/>
+    <span *ngIf="isLoadingInvitations" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    
+  <table [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" datatable class="row-border hover">
+    <thead>
+      <tr>
+        <th class="invitationStatus">...</th>
+        <th>Usuario (Correo Electronico)</th>
+        <th>F. Envio</th>
+        <th>Rol / Perfil</th>
+        <th>Reference</th>
+        <th class="actionsColumn">...</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of invitations">
+        <td>
+          <i class="fas fa-stopwatch" [ngClass]="{'text-primary': i.status == 'Created' || i.status == 'Accepted', 
+            'text-secondary': i.status == 'Cancelled', 'text-success': i.status == 'Activated',
+            'text-info': i.status == 'Requested',
+            'text-danger': checkIfDueDate(i.dueDate) && i.status == 'Created' }"></i>
+        </td>
+        <td>{{i.invitedEmail}}</td>
+        <td>{{i.dateCreated | date}}</td>
+        <td>{{i.role.displayName}}</td>
+        <td>{{i.code}}</td>
+        <td class="actionsColumn">
+          <a *ngIf="i.status == 'Requested' && !checkIfDueDate(i.dueDate)" class="mr-3" [routerLink]="" (click)="onAprove(i)" data-toggle="modal" data-target="#mdlApprove"><i class="fa fa-check text-success" aria-hidden="true"></i></a>
+          <a class="mr-3" *ngIf="i.status != 'Cancelled' && i.status != 'Activated' && !checkIfDueDate(i.dueDate)" [routerLink]="" (click)="onEdit(i)" data-toggle="modal" data-target="#mdlInviteUser" ><i class="fas fa-edit text-primary" aria-hidden="true"></i></a>
+          <a class="mr-3" *ngIf="i.status != 'Cancelled' && i.status != 'Activated' && !checkIfDueDate(i.dueDate)" [routerLink]="" (click)="onCancel(i)" data-toggle="modal" data-target="#mdlCancel"><i class="fa fa-ban text-danger" aria-hidden="true"></i></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
     <!-- END USERS REPORT -->
   </div>
   <div class="card-footer small text-muted">
@@ -183,6 +65,49 @@
 
 
 
+<!-- Modal -->
+<div class="modal fade" id="mdlCancel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cancelacion de Invitacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Esta seguro que desea cancelar esta invitacion?
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeCancelInvitation class="btn btn-secondary" data-dismiss="modal">Ignorar</button>
+        <button type="button" class="btn btn-danger" (click)="onCancelSubmit()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="mdlApprove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Aprobacion de Invitacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Esta seguro que desea aprobar esta invitacion?
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeApproveInvitation class="btn btn-secondary" data-dismiss="modal">Ignorar</button>
+        <button type="button" class="btn btn-success" (click)="onAproveSubmit()">Aprobar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 
@@ -191,34 +116,43 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar un usuario: </h5>
+        <h5 class="modal-title" id="exampleModalLabel">Invitacion: [ {{currentInvite?.id}} ] </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <!-- input fields -->
-        <form>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Usuario (Correo Electronico)</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp" class="form-text text-muted">Se enviara una Invitacion a este correo electronico para el proceso de registro.</small>
+      <form #frmNewInvite="ngForm" id="frmNewInvite">
+        <div class="modal-body">
+          <!-- input fields -->
+          <div *ngIf="currentInvite">
+              <div class="form-group text-right">
+                <small>{{currentInvite.dateCreated | date}}</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Usuario (Correo Electronico)</label>
+                <input name="email" [disabled]="currentInvite && currentInvite.id > 0" type="email" [(ngModel)]="currentInvite.invitedEmail" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">Se enviara una Invitacion a este correo electronico para el proceso de registro.</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Rol / Perfil</label>
+                <select required name="role" [(ngModel)]="selectedRole" class="form-control">
+                  <option *ngFor="let r of userRoles" [ngValue]="r">{{r.displayName}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <small>
+                  http://localhost:4200/home/{{currentInvite.code}}
+                </small>
+              </div>
           </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Rol / Perfil</label>
-            <select class="form-control">
-              <option>Usuario</option>
-              <option>Operador</option>
-              <option>Administrador</option>
-            </select>
-          </div>
-        </form>        
-        <!-- end input fields -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save - Invitar</button>
-      </div>
+          <!-- end input fields -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closeNewInvitationModalBtn class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" *ngIf="currentInvite && currentInvite.id < 1" [disabled]="!frmNewInvite.valid" (click)="onCreateInvite()" class="btn btn-primary">Invitar</button>
+          <button type="button" *ngIf="currentInvite && currentInvite.id > 0" [disabled]="!frmNewInvite.valid" (click)="onUpdate()" class="btn btn-primary">Actualizar</button>
+        </div>
+      </form>        
     </div>
   </div>
 </div>

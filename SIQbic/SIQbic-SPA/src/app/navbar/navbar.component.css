@@ -5,3 +5,15 @@
 .navbar-brand {
     width: 190px;
 }
+
+
+.card-img-top {
+    height: 120px;
+}
+
+.avatar {
+    width: 124px;
+    height: 124px;
+    border: 1px solid #FFFFFF;
+    position: relative;
+}

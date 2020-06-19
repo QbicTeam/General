@@ -1,5 +1,6 @@
 import { Component, OnInit, TestabilityRegistry } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
+import { environment } from 'src/environments/environment';
 
 // const URL = '/api/';
 const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
@@ -14,12 +15,13 @@ export class PhotoEditorComponent implements OnInit {
   uploader:FileUploader;
   hasBaseDropZoneOver:boolean = false;
   hasAnotherDropZoneOver:boolean = false;
-  baseUrl = "";
+  baseUrl = environment.photosAPIUrl + "photos";
 
   constructor() { 
   }
 
   ngOnInit() {
+    console.log(this.baseUrl);
     this.initializeUploader();
   }
 
@@ -39,6 +41,11 @@ export class PhotoEditorComponent implements OnInit {
     });
 
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+  }
+
+  onUpload() {
+    console.log('Uploading photo...');
+    this.uploader.uploadAll();
   }
 
 }

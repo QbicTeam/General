@@ -14,6 +14,9 @@ export class ShareDataService {
   private companySource = new BehaviorSubject<DataSource>(null);
   companyDataSource = this.companySource.asObservable();
 
+  private liveNotificationSource = new BehaviorSubject<any>(null);
+  liveNotificationChange = this.liveNotificationSource.asObservable();
+
   constructor() { }
 
   notifyActionSource(action: QuickAction) {
@@ -22,6 +25,10 @@ export class ShareDataService {
 
   notifyCompanyDataSource(data: DataSource) {
     this.companySource.next(data);
+  }
+
+  notifyLiveNotification(msg: any) {
+    this.liveNotificationSource.next({action:"", msg: msg});
   }
 
 }
