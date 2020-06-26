@@ -1,5 +1,6 @@
 using System;
 using AutoMapper;
+using System.Collections.Generic;
 
 using SI_Admin.API.DTO;
 using Framework.DataTypes.Model.Base;
@@ -15,7 +16,8 @@ namespace SI_Admin.API.Helpers
             // CreateMap<Origen, Destino>()
             //     .ForMember(dest => dest.PropDest, opt => {
             //         opt.MapFrom(src => src.[PropOrg.FirstOrDefault(p => p.Condicion)].PropOrgFinal);
-            //     });
+            //     })
+            // .BeforeMap( (s, d) => d.Propiedad = "valor directo"); // Para Inicializar un valor
 
             //       USO: var myVar = _mapper.Map<destino>(Origen);
 
@@ -41,6 +43,27 @@ namespace SI_Admin.API.Helpers
             CreateMap<PaqueteApp, ClienteActualizacionApp>()
                 .ForMember(ca => ca.Id, opt => opt.Ignore());
             
+            CreateMap<Aplicacion, MenuDTO>()
+                .ForMember(dn => dn.DisplayName, opt => {
+                    opt.MapFrom(src => src.Nombre);                    
+                })
+                .ForMember(d => d.Description, opt => {
+                    opt.MapFrom(src => src.Descripcion);                    
+                })
+                .BeforeMap( (s, d) => d.DisplayIcon = "")
+                .BeforeMap( (s, d) => d.Childs = new List<MenuDTO>());
+
+            CreateMap<AppMenu, MenuDTO>()
+                .ForMember(dn => dn.DisplayName, opt => {
+                    opt.MapFrom(src => src.Nombre);                    
+                })
+                .ForMember(d => d.Description, opt => {
+                    opt.MapFrom(src => src.Descripcion);                    
+                })
+                .ForMember(d => d.DisplayIcon, opt => {
+                    opt.MapFrom(src => src.ClaseIcono);                    
+                });
+
         }
         
     }

@@ -199,6 +199,29 @@ namespace SI_Admin.API.Controllers
             }
                 
             return BadRequest("Not Saved");
-        }             
+        }  
+
+            
+        [HttpGet("aplicacion/{appId}/menu")]
+        public async Task<IActionResult> GetMenu(int appId)
+        {
+            
+            var app = await _repo.GetMenu(appId);
+            var menuDTO = _mapper.Map<MenuDTO>(app);
+            var hijos = app.Menu.Where(l1 => l1.PadreId == null).ToList();
+
+            menuDTO.Childs.AddRange(_mapper.Map<List<MenuDTO>>(hijos));
+            hijos = app.Menu.Where(l2 => l2.PadreId != null).OrderBy(h => h.PadreId).ToList();
+
+            hijos.ForEach(h => {
+                var padre = menuDTO.Childs.Find(p => p.Id == h.PadreId);
+                if (padre.Childs == null) {
+                    padre.Childs = new List<MenuDTO>();
+                }
+                padre.Childs.Add(_mapper.Map<MenuDTO>(h));
+            });
+
+            return Ok(menuDTO);
+        }         
     }
 }

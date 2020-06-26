@@ -22,5 +22,8 @@ namespace SI_Admin.API.Data
          Task<ClienteActualizacion> GetActualizacionCliente(int id);         
          Task<Paquete> GetPaquete(int id);
          Task<IEnumerable<Paquete>> GetPaquetes();
+
+         Task<Aplicacion> GetMenu(int id);
+
     }
 }
