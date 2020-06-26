@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   confirmedCode: string;
   packages;
   currentCustomer = {
-    "name": "",
+    'name': '',
     'phone': '',
     'email': '',
     'package': this.currentPackage,
