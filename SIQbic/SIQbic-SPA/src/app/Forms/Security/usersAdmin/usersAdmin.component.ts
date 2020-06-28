@@ -20,6 +20,8 @@ export class UsersAdminComponent implements OnDestroy, OnInit {
   currentInvite: any;
   userRoles: any;
   selectedRole: any;
+  buttons: any;
+
   @ViewChild('closeNewInvitationModalBtn') closeBtn: ElementRef;
   @ViewChild('closeCancelInvitation') closeBtnCancel: ElementRef;
   @ViewChild('closeApproveInvitation') closeBtnApprove: ElementRef;
@@ -33,9 +35,9 @@ export class UsersAdminComponent implements OnDestroy, OnInit {
       pageLength: 10
     };
 
-    console.log('Form container loaded...', this.formData);
     this.loadInvitations();
     this.loadUserRoles();
+    this.loadButtons(); //TODO: this must be removed and refactored.
   }
   
   ngOnDestroy(): void {
@@ -65,6 +67,7 @@ export class UsersAdminComponent implements OnDestroy, OnInit {
     this.currentInvite = {
       id:0,
       invitedEmail: "",
+      invitedName: "",
       code: "",
       dateCreated: ""
     }
@@ -74,11 +77,10 @@ export class UsersAdminComponent implements OnDestroy, OnInit {
     console.log(this.currentInvite);
     this.closeBtn.nativeElement.click();
     
-    console.log(this.selectedRole);
-
     const invite = {
       roleId: this.selectedRole.id,
       invitedEmail: this.currentInvite.invitedEmail,
+      invitedName: this.currentInvite.invitedName,
       sponsorEmail: this._authService.getDecodedToken().unique_name
     };
 
@@ -108,20 +110,16 @@ export class UsersAdminComponent implements OnDestroy, OnInit {
   onEdit(invitation: any) {
     this.currentInvite = invitation;
     this.selectedRole = this.userRoles.find(ur => ur.id == invitation.role.id);
-    console.log(this.currentInvite);
   }
 
   onUpdate() {
 
     this.closeBtn.nativeElement.click();
 
-    if (this.selectedRole.id !== this.currentInvite.role.id) {
-      
-      this._authService.updateInvitation(this.currentInvite.id, this.selectedRole.id).subscribe(() => { 
+      this._authService.updateInvitation(this.currentInvite.id, this.selectedRole.id, this.currentInvite.invitedName).subscribe(() => { 
         this.invitations.find(i => i.id == this.currentInvite.id).role = this.selectedRole;
         this._alertify.success("Data Uodated Successfully");
       });
-    }
 
   }
 
@@ -185,4 +183,17 @@ export class UsersAdminComponent implements OnDestroy, OnInit {
 
   }
 
+  onOptionSelected(option) {
+    console.log(option);
+  }
+
+  private loadButtons(){
+    this.buttons = new Array();
+    this.buttons.push({actionName:"delete", btnClass:"btn btn-sm btn-danger mr-2", value:"<i class='fas fa-trash-alt'></i>"});
+    this.buttons.push({actionName:"excel", btnClass:"btn btn-sm btn-secondary mr-2", value:"<i class='fas fa-file-excel'></i>"});
+    this.buttons.push({actionName:"pdf", btnClass:"btn btn-sm btn-secondary mr-2", value:"<i class='fas fa-file-pdf'></i>"});
+    this.buttons.push({actionName:"print", btnClass:"btn btn-sm btn-secondary mr-2", value:"<i class='fa fa-print'></i>"});
+    this.buttons.push({actionName:"save", btnClass:"btn btn-sm btn-success mr-2", value:"Grabar"});
+
+  }
 }

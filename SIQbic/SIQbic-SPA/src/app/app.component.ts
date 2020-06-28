@@ -24,7 +24,22 @@ export class AppComponent implements OnInit {
     this.buildConnection();
     this.startConnection();
 
+
     let sidebarVisible = false;
+    let classFound = false;
+
+    for(var itm in this.document.body.classList) {
+      if (this.document.body.classList[itm] == 'sb-sidenav-toggled') {
+        classFound = true;
+        break;
+      }
+    }
+
+    if(classFound) {
+      sidebarVisible = false;
+    } else {
+      sidebarVisible = true;
+    }
 
     this._shareData.currentActionSource.subscribe(action => {
 

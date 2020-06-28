@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SIQbic.API.Migrations
 {
-    public partial class InitialCreation : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace SIQbic.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DisplayText = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -25,7 +25,7 @@ namespace SIQbic.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(nullable: true),
                     DisplayName = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<byte[]>(nullable: true),
@@ -47,13 +47,14 @@ namespace SIQbic.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DueDate = table.Column<DateTime>(nullable: false),
                     InvitedEmail = table.Column<string>(nullable: true),
                     SponsorEmail = table.Column<string>(nullable: true),
+                    RoleId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -72,7 +73,7 @@ namespace SIQbic.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     QuestionId = table.Column<int>(nullable: true),
                     Response = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: true)

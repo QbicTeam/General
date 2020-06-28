@@ -32,8 +32,12 @@ namespace SIQbic.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
-                .ConfigureWarnings(w => w.Ignore(CoreEventId.IncludeIgnoredWarning)));
+            // services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
+            //     .ConfigureWarnings(w => w.Ignore(CoreEventId.IncludeIgnoredWarning)));
+
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.IncludeIgnoredWarning)));
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddCors();

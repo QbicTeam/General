@@ -42,7 +42,8 @@ namespace SIQbic.API.Controllers
                 UserName = userForRegisterDto.UserName,
                 DisplayName = userForRegisterDto.DisplayName,
                 PhoneNumber = userForRegisterDto.Phone,
-                QuestionResponses = new List<QuestionResponse>()
+                QuestionResponses = new List<QuestionResponse>(),
+                PhotoUrl = userForRegisterDto.PhotoUrl
             };
 
             var data = await this._repo.GetQuestions();
@@ -81,6 +82,12 @@ namespace SIQbic.API.Controllers
             if (userFromRepo == null)
             {
                 return Unauthorized();
+            }
+
+            if (string.IsNullOrEmpty(userFromRepo.PhotoUrl))
+            {
+                //TODO: This must be removed...
+                userFromRepo.PhotoUrl = "http://majahide-001-site1.itempurl.com/releasecandidates/PhotosManagerAPI/prometheusmedia/SIQBICPROFILES/UserProfiles/nopic.jpg";
             }
 
             var claims = new[]
@@ -135,10 +142,65 @@ namespace SIQbic.API.Controllers
             var user = await this._repo.GetUserById(id);
 
             user.DisplayName = userForUpdate.DisplayName;
+            if (!string.IsNullOrEmpty(userForUpdate.PhotoUrl ))
+                user.PhotoUrl = userForUpdate.PhotoUrl;
+
+            //TODO: Missing Update responses.
+
+            //TODO: Missing change password
 
             await this._repo.SaveAll();
 
-            return Ok();
+            return Ok(new { msg = ""});
+        }
+
+
+
+        public string CurrentPwd { get; set; }
+
+        public string NewPwd { get; set; }
+
+        public List<QuestionResponseDTO> Responses { get; set; }  
+
+        [HttpGet("users/{id}/settings")]
+        public async Task<ActionResult> GetUserSettings(int id) {
+
+            var user = await this._repo.GetUserById(id);
+
+            UserForSettingsDTO result = new UserForSettingsDTO();
+
+            result.Id = user.Id;
+            result.DisplayName = user.DisplayName;
+            result.UserName = user.UserName;
+            if (!string.IsNullOrEmpty(user.PhotoUrl))
+            {
+                result.PhotoUrl = user.PhotoUrl;
+            }
+            else
+            {
+                result.PhotoUrl = "http://majahide-001-site1.itempurl.com/releasecandidates/PhotosManagerAPI/prometheusmedia/SIQBICPROFILES/UserProfiles/nopic.jpg";
+            }
+            result.Questions = new List<QuestionForList>();
+
+            var questions = await this._repo.GetQuestions();
+
+            foreach(var q in questions) {
+                result.Questions.Add(new QuestionForList{
+                    Id = q.Id,
+                    DisplayValue = q.DisplayText
+                });
+            }
+
+            result.Responses = new List<QuestionResponseDTO>();
+
+            foreach(var qr in user.QuestionResponses) {
+                result.Responses.Add(new QuestionResponseDTO {
+                    QuestionId = qr.Id,
+                    Response = qr.Response
+                });
+            }
+
+            return Ok(result);
         }
 
         [HttpGet("onboard/{rcode}")]
@@ -208,7 +270,7 @@ namespace SIQbic.API.Controllers
                
                 RegistrationCodeStatusType userRegCodeStatus = (RegistrationCodeStatusType) Enum.Parse(typeof(RegistrationCodeStatusType), regCode.Status);
 
-                await this._repo.RequestInvitation(regCode.InvitedEmail, regCode.SponsorEmail, regCode.RoleId);
+                await this._repo.RequestInvitation(regCode.InvitedEmail, regCode.SponsorEmail, regCode.RoleId, regCode.InvitedName);
 
                 return Ok();
             }
@@ -221,6 +283,7 @@ namespace SIQbic.API.Controllers
             var reg = await this._repo.GetInvitationById(id);
 
             reg.RoleId = inviteForUpdate.RoleId;
+            reg.InvitedName = inviteForUpdate.InvitedName;
             await this._repo.SaveAll();
 
             return Ok();
@@ -257,6 +320,7 @@ namespace SIQbic.API.Controllers
             RegistrationCode regCode = new RegistrationCode {
                 DateCreated = DateTime.Now,
                 InvitedEmail = inviteForCreation.InvitedEmail,
+                InvitedName = inviteForCreation.InvitedName,
                 SponsorEmail = inviteForCreation.SponsorEmail,
                 RoleId = inviteForCreation.RoleId,
                 Status = RegistrationCodeStatusType.Created.ToString()
@@ -269,6 +333,7 @@ namespace SIQbic.API.Controllers
                     DateCreated = regCode.DateCreated,
                     DueDate = regCode.DueDate,
                     InvitedEmail = regCode.InvitedEmail,
+                    InvitedName = regCode.InvitedName,
                     SponsorEmail = regCode.SponsorEmail,
                     Status = regCode.Status,
                     Code = regCode.Code
@@ -295,6 +360,7 @@ namespace SIQbic.API.Controllers
                     DateCreated = i.DateCreated,
                     DueDate = i.DueDate,
                     InvitedEmail = i.InvitedEmail,
+                    InvitedName = i.InvitedName,
                     SponsorEmail = i.SponsorEmail,
                     Status = i.Status,
                     Code = i.Code

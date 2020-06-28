@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIQbic.API.Data;
@@ -9,23 +10,26 @@ using SIQbic.API.Data;
 namespace SIQbic.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200531062207_Initial Creation")]
-    partial class InitialCreation
+    [Migration("20200627023503_InvitedName was added to invitations")]
+    partial class InvitedNamewasaddedtoinvitations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0");
+                .HasAnnotation("ProductVersion", "3.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("SIQbic.API.Model.Question", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("DisplayText")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -36,16 +40,17 @@ namespace SIQbic.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("QuestionId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Response")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -60,28 +65,35 @@ namespace SIQbic.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DueDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InvetedName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InvitedEmail")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<string>("SponsorEmail")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -94,37 +106,38 @@ namespace SIQbic.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreationDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DisplayName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModificationDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<byte[]>("PasswordHash")
-                        .HasColumnType("BLOB");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("PasswordSalt")
-                        .HasColumnType("BLOB");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhotoSourceCode")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhotoUrl")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

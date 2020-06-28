@@ -4,5 +4,7 @@ namespace SIQbic.API.Dtos
     {
         public int RoleId { get; set; }
 
+        public string InvitedName { get; set; }
+
     }
 }

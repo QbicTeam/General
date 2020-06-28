@@ -42,4 +42,8 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  onResetPwd() {
+    console.log('Reseting pwd.');
+  }
+
 }

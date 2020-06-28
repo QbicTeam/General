@@ -17,6 +17,8 @@ namespace SIQbic.API.Dtos
 
         public string InvitedEmail { get; set; }
 
+        public string InvitedName { get; set; }
+
         public string SponsorEmail { get; set; }
 
         public Role Role { get; set; }        
