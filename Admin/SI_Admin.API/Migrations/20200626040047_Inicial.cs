@@ -69,7 +69,15 @@ namespace SI_Admin.API.Migrations
                     Nombre = table.Column<string>(nullable: true),
                     Descripcion = table.Column<string>(nullable: true),
                     URL = table.Column<string>(nullable: true),
-                    PadreId = table.Column<int>(nullable: false)
+                    PadreId = table.Column<int>(nullable: true),
+                    ClaseIcono = table.Column<string>(nullable: true),
+                    RutaNavegacion = table.Column<string>(nullable: true),
+                    Notas = table.Column<string>(nullable: true),
+                    NotasTipo = table.Column<string>(nullable: true),
+                    NotasPie = table.Column<string>(nullable: true),
+                    Componente = table.Column<string>(nullable: true),
+                    PermisosEspeciales = table.Column<string>(nullable: true),
+                    Estatus = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -85,7 +93,7 @@ namespace SI_Admin.API.Migrations
                         column: x => x.PadreId,
                         principalTable: "Menus",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

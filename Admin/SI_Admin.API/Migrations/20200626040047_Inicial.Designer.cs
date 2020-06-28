@@ -9,7 +9,7 @@ using SI_Admin.API.Data;
 namespace SI_Admin.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200528042620_Inicial")]
+    [Migration("20200626040047_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,14 +119,38 @@ namespace SI_Admin.API.Migrations
                     b.Property<int>("AplicacionId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ClaseIcono")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Componente")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Descripcion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Estatus")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nombre")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PadreId")
+                    b.Property<string>("Notas")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotasPie")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NotasTipo")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("PadreId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("PermisosEspeciales")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RutaNavegacion")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("URL")
                         .HasColumnType("TEXT");
@@ -336,9 +360,7 @@ namespace SI_Admin.API.Migrations
 
                     b.HasOne("Framework.DataTypes.Model.Infraestructura.AppMenu", "Padre")
                         .WithMany()
-                        .HasForeignKey("PadreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PadreId");
                 });
 
             modelBuilder.Entity("Framework.DataTypes.Model.Licenciamiento.ClienteActualizacion", b =>

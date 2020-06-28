@@ -95,5 +95,14 @@ namespace SI_Admin.API.Data
 
             return paquetes;
         }
+
+        public async Task<Aplicacion> GetMenu(int id)
+        {
+            var app = await _context.Aplicaciones
+                .Include(m => m.Menu)
+                .FirstOrDefaultAsync(a => a.Id == id);
+            
+            return app;
+        }
     }
 }
