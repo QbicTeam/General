@@ -28,7 +28,6 @@ namespace SI_Admin.API.Helpers
             //      USO:    List<PersonView> personViews =  Mapper.Map<List<Person>, List<PersonView>>(people);
 
             CreateMap<ClienteParaRegistroDTO, Cliente>();
-            CreateMap<Paquete, PaqueteParaLista>(); 
             CreateMap<ClienteActualizacion, ActualizacionClienteParaListaDTO>()
                 .ForMember(dest => dest.NombreCliente, opt => {
                      opt.MapFrom(src => src.Cliente.NomEmpresa);
@@ -38,10 +37,15 @@ namespace SI_Admin.API.Helpers
                  });
             CreateMap<ClienteActualizacion, ClienteActualizacionDTO>();
             CreateMap<ClienteNegocioParaCreacionDTO, ClienteNegocio>();
+            
             CreateMap<PaqueteApp, LicenciaApp>()
                 .ForMember(la => la.Id, opt => opt.Ignore());
             CreateMap<PaqueteApp, ClienteActualizacionApp>()
                 .ForMember(ca => ca.Id, opt => opt.Ignore());
+            CreateMap<Paquete, PaqueteParaLista>(); 
+                CreateMap<Paquete, PackageForDetailDTO>();
+            CreateMap<Paquete, PackageForSelectioncsDTO>();
+            CreateMap<Paquete, PackageForSummaryDTO>();
             
             CreateMap<Aplicacion, MenuDTO>()
                 .ForMember(dn => dn.DisplayName, opt => {

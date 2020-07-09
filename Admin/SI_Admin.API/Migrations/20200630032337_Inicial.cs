@@ -52,7 +52,11 @@ namespace SI_Admin.API.Migrations
                     NumUsuarios = table.Column<int>(nullable: false),
                     NumNegocios = table.Column<int>(nullable: false),
                     Costo = table.Column<decimal>(nullable: false),
-                    ClaseIcono = table.Column<string>(nullable: true)
+                    ContenidoCorto = table.Column<string>(nullable: true),
+                    ContenidoCompleto = table.Column<string>(nullable: true),
+                    Activo = table.Column<bool>(nullable: false),
+                    ClaseIcono = table.Column<string>(nullable: true),
+                    RutaLogo = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

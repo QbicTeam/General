@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ComercialService } from '../_services/comercial.service';
+import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,31 @@ export class HomeComponent implements OnInit {
     'shortName': '',
     'rfc': '',
     'address': ''
+  };
+
+  customOptions: OwlOptions = {
+    loop: true,
+    mouseDrag: false,
+    touchDrag: false,
+    pullDrag: false,
+    dots: true,
+    navSpeed: 700,
+    navText: ['<<', '>>'],
+    responsive: {
+      0: {
+        items: 1
+      },
+      400: {
+        items: 2
+      },
+      740: {
+        items: 3
+      },
+      940: {
+        items: 4
+      }
+    },
+    nav: true
   };
 
   constructor(private _comercialService: ComercialService) { }

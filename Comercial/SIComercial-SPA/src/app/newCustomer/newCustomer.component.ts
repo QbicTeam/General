@@ -26,6 +26,7 @@ export class NewCustomerComponent implements OnInit {
     'address': ''
   };
 
+
   constructor(private _comercialService: ComercialService) { }
 
   ngOnInit() {

@@ -47,7 +47,7 @@ constructor(private _http: HttpClient) { }
     let update = { Status: 2 };
     return this._http.put(this.baseURL + 'clientes/' + customerId + '/Actualizaciones/' + requestId, update);
   }
-
+-
   createInvitedUser(emailUser) {
     let invite = {
       "RoleId":1,

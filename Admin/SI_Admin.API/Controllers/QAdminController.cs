@@ -12,6 +12,9 @@ using Framework.DataTypes.Model.Base;
 using Framework.DataTypes.Model.Licenciamiento;
 using Framework.DataTypes.Model.Infraestructura;
 
+//using Framework.Helpers.Infrastructure;
+using Framework.Helpers;
+
 namespace SI_Admin.API.Controllers
 {
     [ApiController]
@@ -207,19 +210,22 @@ namespace SI_Admin.API.Controllers
         {
             
             var app = await _repo.GetMenu(appId);
-            var menuDTO = _mapper.Map<MenuDTO>(app);
-            var hijos = app.Menu.Where(l1 => l1.PadreId == null).ToList();
+            //var menuDTO = GetMenuDTO(app);
+            var menuDTO = new Infrastructure().GetMenuDTO(app);
 
-            menuDTO.Childs.AddRange(_mapper.Map<List<MenuDTO>>(hijos));
-            hijos = app.Menu.Where(l2 => l2.PadreId != null).OrderBy(h => h.PadreId).ToList();
+            // var menuDTO = _mapper.Map<MenuDTO>(app);
+            // var hijos = app.Menu.Where(l1 => l1.PadreId == null).ToList();
 
-            hijos.ForEach(h => {
-                var padre = menuDTO.Childs.Find(p => p.Id == h.PadreId);
-                if (padre.Childs == null) {
-                    padre.Childs = new List<MenuDTO>();
-                }
-                padre.Childs.Add(_mapper.Map<MenuDTO>(h));
-            });
+            // menuDTO.Childs.AddRange(_mapper.Map<List<MenuDTO>>(hijos));
+            // hijos = app.Menu.Where(l2 => l2.PadreId != null).OrderBy(h => h.PadreId).ToList();
+
+            // hijos.ForEach(h => {
+            //     var padre = menuDTO.Childs.Find(p => p.Id == h.PadreId);
+            //     if (padre.Childs == null) {
+            //         padre.Childs = new List<MenuDTO>();
+            //     }
+            //     padre.Childs.Add(_mapper.Map<MenuDTO>(h));
+            // });
 
             return Ok(menuDTO);
         }         

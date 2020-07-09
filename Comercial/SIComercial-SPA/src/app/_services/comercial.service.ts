@@ -9,12 +9,15 @@ export class ComercialService {
 
 constructor(private _http: HttpClient) { }
 
-baseURL = environment.apiURL;
+baseURL = environment.apiURLAdm;
+baseURLStor = environment.apiURLStorage;
+
 
 
 
   getPaquetes() {
-    return this._http.get(this.baseURL + 'paquetes');
+    // return this._http.get(this.baseURL + 'paquetes');
+    return this._http.get(this.baseURLStor + 'packages');
   }
 
   requestConfirmationCode(name: string, email: string) {

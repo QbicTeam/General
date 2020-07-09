@@ -297,7 +297,16 @@ namespace SI_Admin.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Activo")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ClaseIcono")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContenidoCompleto")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ContenidoCorto")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Costo")
@@ -314,6 +323,9 @@ namespace SI_Admin.API.Migrations
 
                     b.Property<int>("NumUsuarios")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("RutaLogo")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

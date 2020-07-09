@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiURL: 'http://localhost:5010/api/QAdmin/'
+  apiURLAdm: 'http://localhost:5010/api/QAdmin/',
+  apiURLStorage: 'http://localhost:5010/api/Store/'
 };
 
 /*
