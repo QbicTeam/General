@@ -38,7 +38,7 @@
         <div class="row">
           <div class="col-5">
             <!--[FOTO]-->
-            <app-photo-editor></app-photo-editor>
+            <app-photo-editor (onSuccessPhotoUploaded)="onSuccesPhoto($event)"></app-photo-editor>
             <!--[END PHOTO]-->
           </div>
           <div class="col-7">

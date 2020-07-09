@@ -1,9 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserForLogin } from '../Dtos/UserForLogin';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PhotoEditorComponent } from '../photo-editor/photo-editor.component';
+
 
 @Component({
   selector: 'app-register',
@@ -16,7 +18,7 @@ export class RegisterComponent implements OnInit {
   isSubmitted = false;
   isCodeValid = false;
 
-  
+  @ViewChild(PhotoEditorComponent) photoEditor: PhotoEditorComponent;
   @Output() actionChange = new EventEmitter();
   currentRegCode: any;
   registerForm: FormGroup;
@@ -71,7 +73,8 @@ export class RegisterComponent implements OnInit {
       response3: new FormControl('', Validators.required),
       question1: new FormControl('', Validators.required),
       question2: new FormControl('', Validators.required),
-      question3: new FormControl('', Validators.required)
+      question3: new FormControl('', Validators.required),
+      photoUrl: new FormControl('')
     }, [this.passwordMatchValidator, this.compareQuestions]);
   }
 
@@ -93,23 +96,11 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    this.isSubmitted = true;
 
-    this.isLoading = true;
+      this.isSubmitted = true;
+      this.isLoading = true;
 
-    this._authService.register(this.registerForm.value).subscribe(() => {
-      this._alertify.success('Registered in successfully')
-      this._authService.login({ "UserName": this.registerForm.value.username , "Password": this.registerForm.value.password}).subscribe(()=> {
-        this.isLoading = false;
-      }, error => {
-        this._alertify.error(error);
-        this.isLoading = false;
-      })
-    }, error => {
-      this._alertify.error(error);
-      this.isLoading = false;
-    });
-
+      this.photoEditor.onUpload();
   }
 
   passwordMatchValidator(g: FormGroup) {
@@ -177,6 +168,29 @@ export class RegisterComponent implements OnInit {
   }
 
 
+  onSuccesPhoto(url) {
+    //console.log('Photo uploaded', url);
+
+    if (url) {
+      this.registerForm.get('photoUrl').setValue(url);
+    }
+
+    //console.log(this.registerForm);
+
+    this._authService.register(this.registerForm.value).subscribe(() => {
+      this._alertify.success('Registered in successfully')
+      this._authService.login({ "UserName": this.registerForm.value.username , "Password": this.registerForm.value.password}).subscribe(()=> {
+        this.isLoading = false;
+      }, error => {
+        this._alertify.error(error);
+        this.isLoading = false;
+      })
+    }, error => {
+      this._alertify.error(error);
+      this.isLoading = false;
+    });    
+  }
+
   private loadQuestions() {
     this._authService.getQuestions().subscribe(data => {
       this.questions1 = data;
@@ -185,7 +199,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-
+  //onUpload
 
 }
 

@@ -38,5 +38,7 @@ namespace SIQbic.API.Dtos
         [Required]
         public string RegistrationCode { get; set; }
 
+        public string PhotoUrl { get; set; }
+
     }
 }

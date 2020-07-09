@@ -14,6 +14,8 @@ namespace SIQbic.API.Model
 
         public DateTime DueDate { get; set; }
 
+        public string InvitedName { get; set; }
+
         public string InvitedEmail { get; set; }
 
         public string SponsorEmail { get; set; }

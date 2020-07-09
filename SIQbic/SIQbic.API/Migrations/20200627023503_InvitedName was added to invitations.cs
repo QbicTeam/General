@@ -2,21 +2,20 @@
 
 namespace SIQbic.API.Migrations
 {
-    public partial class RoleIdColumnAdded : Migration
+    public partial class InvitedNamewasaddedtoinvitations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "RoleId",
+            migrationBuilder.AddColumn<string>(
+                name: "InvetedName",
                 table: "Invitations",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "RoleId",
+                name: "InvetedName",
                 table: "Invitations");
         }
     }

@@ -73,12 +73,13 @@ namespace SIQbic.API.Data
 
         public async Task<User> GetUserById(int userId)
         {
-            var user = await this._context.Users.Include(rc => rc.RegistrationCodes).FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await this._context.Users.Include(rc => rc.RegistrationCodes)
+                .Include(qr => qr.QuestionResponses).FirstOrDefaultAsync(u => u.Id == userId);
 
             return user;
         }
 
-        public async Task<string> RequestInvitation(string invitedEmail, string sponsorEmail, int roleId) 
+        public async Task<string> RequestInvitation(string invitedEmail, string sponsorEmail, int roleId, string invitedName) 
         {
             string rcode = GenerateInvitationCode();
 
@@ -88,6 +89,7 @@ namespace SIQbic.API.Data
                 RoleId = roleId,
                 DueDate = DateTime.Now.AddDays(EXPIRATION_DATE_VIGENCY),
                 InvitedEmail = invitedEmail,
+                InvitedName = invitedName,
                 SponsorEmail = sponsorEmail,
                 Status = RegistrationCodeStatusType.Requested.ToString()
             });

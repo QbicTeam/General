@@ -1,4 +1,4 @@
-import { Component, OnInit, TestabilityRegistry } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 
@@ -12,16 +12,18 @@ const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 })
 export class PhotoEditorComponent implements OnInit {
 
+  @Output() onSuccessPhotoUploaded = new EventEmitter();
+
   uploader:FileUploader;
   hasBaseDropZoneOver:boolean = false;
   hasAnotherDropZoneOver:boolean = false;
-  baseUrl = environment.photosAPIUrl + "photos";
+  baseUrl = environment.photosAPIUrl + "photos/" + environment.profilesPhotosProjectName + "/" + environment.profilesPhotosFolderName + "/photos/";
 
+  
   constructor() { 
   }
 
   ngOnInit() {
-    console.log(this.baseUrl);
     this.initializeUploader();
   }
 
@@ -40,12 +42,27 @@ export class PhotoEditorComponent implements OnInit {
       maxFileSize: 10 * 1024 * 1024
     });
 
-    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file) => { 
+      file.withCredentials = false; 
+    };
+
+    this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessPhoto(item, response, status, headers);
+
+  }
+
+  onSuccessPhoto(item: any, response: any, status: any, headers: any) {
+    const data = JSON.parse(response);
+
+    this.onSuccessPhotoUploaded.emit(environment.profilesPhotosRepoUrl +  environment.profilesPhotosProjectName 
+        + "/" + environment.profilesPhotosFolderName + "/" + data.url);
   }
 
   onUpload() {
-    console.log('Uploading photo...');
-    this.uploader.uploadAll();
+    if (this.uploader.queue.length > 0) {
+      this.uploader.uploadAll();
+    } else {
+      this.onSuccessPhotoUploaded.emit("");
+    }
   }
 
 }

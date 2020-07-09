@@ -13,7 +13,16 @@
               </div>
             </div>
           </div>
-  
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Empresa:</label>
+                <input type="text" required name="company" class="form-control" placeholder="Empresa">
+              </div>
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
@@ -22,12 +31,18 @@
               </div>
             </div>
           </div>
+
           <div class="row">
             <div class="update ml-auto mr-auto">
               <button [disabled]="!loginForm.valid" type="submit" (click)="login()" class="btn btn-primary btn-round">
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 <span> Login</span>
               </button>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="update ml-auto mr-auto">
+              <span>Olvido su contraseña?</span><a class="ml-1" [routerLink]="" (click)="onResetPwd()">Cambiar Clave de Acceso</a>
             </div>
           </div>
           <div class="row d-none">

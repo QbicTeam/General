@@ -46,6 +46,10 @@ export class AuthService {
       );
   }
 
+  getUserSettings(userId: any) {
+    return this._http.get(this.baseUrl + "users/" + userId + "/settings");
+  }
+
   getQuestions() {
     return this._http.get(this.baseUrl + "questions");
   }
@@ -77,8 +81,8 @@ export class AuthService {
     return this._http.get(this.baseUrl + "invites");
   }
 
-  updateInvitation(id: any, roleId: any) {
-    return this._http.put(this.baseUrl + "invites/" + id, {roleId: roleId});
+  updateInvitation(id: any, roleId: any, invitedName: any) {
+    return this._http.put(this.baseUrl + "invites/" + id, {roleId: roleId, invitedName: invitedName});
   }
 
   cancellInvitation(id: any) {

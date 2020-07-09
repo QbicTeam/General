@@ -37,7 +37,7 @@
       <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-              <a class="dropdown-item" [routerLink]="" data-toggle="modal" data-target="#mdlUserSettings" >Settings</a><a class="dropdown-item" href="#">Activity Log</a>
+              <a class="dropdown-item" [routerLink]="" (click)="loadUserSettings()" data-toggle="modal" data-target="#mdlUserSettings" >Settings</a><a class="dropdown-item" href="#">Activity Log</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" (click)="logout()">Logout</a>
           </div>
@@ -52,37 +52,161 @@
         <div class="modal-body">
           <!-- user card -->
 
-          <div class="card">
+          <div class="card" *ngIf="currentUserSettings">
               <div style="text-align: center; background-image: url('http://majahide-001-site1.itempurl.com/releasecandidates/PhotosManagerAPI/siqbicmedia/wallpaper-1802929.jpg');">
-                <img class="avatar border-gray rounded-circle" src="{{currentUser.website}}" alt="...">
+                <!-- <img class="avatar border-gray rounded-circle my-3" src="{{currentUser.website}}" alt="..."> -->
+                <img class="avatar border-gray rounded-circle my-3" src="{{currentUserSettings.photoUrl}}" alt="...">
               </div>
             <div class="card-body p-0">
-                <div class="author pt-2 pl-2 pr-2">
-                    <div class="form-group">
-                        <input [(ngModel)]="currentUser.given_name" name="displayName" type="text" class="form-control" />
-                    </div>
-                    <p class="description">
-                      {{currentUser.unique_name}}
-                    </p>
+              <!-- GENERAL INFO -->
+                <div *ngIf="currentSection == 'general'">
+                  <div class="author pt-2 pl-2 pr-2">
+                      <div class="form-group">
+                          <input [(ngModel)]="currentUserSettings.displayName" name="displayName" type="text" class="form-control" />
+                      </div>
+                      <p class="description">
+                        {{currentUserSettings.userName}}
+                      </p>
+                  </div>
+                  <p class="description text-center">
+                      Custom Role <br>
+                      Based on "Role"
+                  </p>
                 </div>
-                <p class="description text-center">
-                    Custom Role <br>
-                    Based on "Role"
-                </p>
+                <!-- END GENERAL INFO -->
+
+                <!-- PHOTO -->
+                <div *ngIf="currentSection == 'photo'" class="mt-2">
+                  <div class="row">
+                    <div class="col-12 px-4">
+                      <h4>Actualizar foto de perfil</h4>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 px-4">
+                      <app-photo-editor (onSuccessPhotoUploaded)="onSuccesPhoto($event)"></app-photo-editor>
+                    </div>
+                  </div>
+                </div>
+                <!-- END PHOTO -->
+
+                <!-- QUESTIONS -->
+                <div *ngIf="currentSection == 'questions'" class="mt-2">
+                  <div class="row">
+                    <div class="col-12 px-4">
+                      <h4>Preguntas de seguridad</h4>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 px-4">
+                      <div class="form-group">
+                        <label>Pregunta 1:</label>
+                        <select class="form-control" [(ngModel)]="selectedQ1">
+                          <option *ngFor="let q of currentUserSettings.questions" [ngValue]="q">{{q.displayValue}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-12 px-4">
+                      <div class="form-group">
+                        <input type="text" required name="question1" [(ngModel)]="currentUserSettings.responses[0].response" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 px-4">
+                      <div class="form-group">
+                        <label>Pregunta 2:</label>
+                        <select class="form-control" [(ngModel)]="selectedQ2">
+                          <option *ngFor="let q of currentUserSettings.questions" [ngValue]="q">{{q.displayValue}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-12 px-4">
+                      <div class="form-group">
+                        <input type="text" required name="question2" [(ngModel)]="currentUserSettings.responses[1].response" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 px-4">
+                      <div class="form-group">
+                        <label>Pregunta 3:</label>
+                        <select class="form-control" [(ngModel)]="selectedQ3">
+                          <option *ngFor="let q of currentUserSettings.questions" [ngValue]="q">{{q.displayValue}}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-12 px-4">
+                      <div class="form-group">
+                        <input type="text" required name="question3" [(ngModel)]="currentUserSettings.responses[2].response" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                  </div>                  
+
+                </div>
+                <!-- END QUESTIONS -->
+
+                <!-- PWD -->
+                <div *ngIf="currentSection == 'password'" class="mt-2">
+                  <div class="row">
+                    <div class="col-12 px-4">
+                      <h4>Cambio de Clave de Acceso</h4>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 px-4">
+                      <div class="form-group">
+                        <label>Clave Actual:</label>
+                        <input type="password" required name="currentPwd" [(ngModel)]="cusrrentPasswordChanges.currentPwd" class="form-control" placeholder="Password">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 px-4">
+                      <div class="form-group">
+                        <label>Nueva Clave:</label>
+                        <input type="password" required name="newPwd" [(ngModel)]="cusrrentPasswordChanges.newPwd" class="form-control" placeholder="Password">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 px-4">
+                      <div class="form-group">
+                        <label>Confirmar:</label>
+                        <input type="password" required name="confirmPwd" [(ngModel)]="cusrrentPasswordChanges.confirmPwd" class="form-control" placeholder="Password">
+                      </div>
+                    </div>
+                  </div>
+                          
+                </div>
+                <!-- END PWD -->
 
                 <div class="card-footer">
-                    <div>Aspectos Relevantes:</div>
+                    <div>Acciones:</div>
                     <hr>
                     <div class="button-container">
                       <div class="row">
-                        <div class="col-lg-3 col-md-6 col-6 ml-auto">
-                          <h5>12<br><small>Files</small></h5>
+                        <div class="col-3 text-center">
+                          <button (click)="onCurrentSection('general')" class="btn btn-success">
+                            <i class="fas fa-id-badge"></i>
+                          </button>
                         </div>
-                        <div class="col-lg-4 col-md-6 col-6 ml-auto mr-auto">
-                          <h5>2GB<br><small>Used</small></h5>
+                        <div class="col-3 text-center">
+                          <button (click)="onCurrentSection('photo')" class="btn btn-success">
+                            <i class="fas fa-camera"></i>
+                          </button>
                         </div>
-                        <div class="col-lg-3 mr-auto">
-                          <h5>24,6$<br><small>Spent</small></h5>
+                        <div class="col-3 text-center">
+                          <button (click)="onCurrentSection('questions')" class="btn btn-success">
+                            <i class="fas fa-question-circle"></i>
+                          </button>
+                        </div>
+                        <div class="col-3 text-center">
+                          <button (click)="onCurrentSection('password')" class="btn btn-success">
+                            <i class="fas fa-key"></i>
+                          </button>
                         </div>
                       </div>
                     </div>
